@@ -12,8 +12,6 @@ local ORDERS =
     { "wdgk", { -214 + 360, 210 } },
 }
 
-
-
 --------------------------------------------------------------------------------------------------
 
 local function BuildSkillsData(SkillTreeFns)
@@ -416,16 +414,24 @@ local function BuildSkillsData(SkillTreeFns)
             group = "wdgk",
             tags = { "wdgk" },
         },
-
-        -----------------------------------------------------------------------------
     }
 
-    return {
-        SKILLS = skills,
-        ORDERS = ORDERS,
-    }
+    return skills
 end
 
 --------------------------------------------------------------------------------------------------
 
-return BuildSkillsData
+
+local function buildSkillTree()
+    RegisterSkilltreeBGForCharacter("images/wendy_skilltree_bg.xml", "wendy")
+    RegisterSkilltreeIconsAtlas("images/my_icon.xml", "my_skill_icon.tex")
+    -- 注册技能树背景图
+
+    local skill_defs = require("prefabs/skilltree_defs")
+
+    skill_defs.CreateSkillTreeFor("wendy", BuildSkillsData(skill_defs.FN))
+    skill_defs.SKILLTREE_ORDERS["wendy"] = ORDERS
+    -- skill_defs.SKILLTREE_METAINFO["wendy"].BACKGROUND_SETTINGS = data.BACKGROUND_SETTINGS
+    -- 构建技能树
+end
+buildSkillTree()

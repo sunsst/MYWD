@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0">
+        <file id="0" name="dream_1.png" width="33" height="48" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="dream_0.png" width="112" height="112" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="ghostly_elixirs">
+        <animation id="0" name="dream" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="dream_0" folder="0" file="1" abs_x="1.99115" abs_y="-1.035398" abs_pivot_x="0.50885" abs_pivot_y="0.535398" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="dream_1" folder="0" file="0" abs_x="-13.014706" abs_y="5.918367" abs_pivot_x="0.514706" abs_pivot_y="0.581633" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="500">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+                <key id="2" time="727">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="dream_0">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="1.99115" y="-1.035398" pivot_x="0.50885" pivot_y="0.535398"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="dream_1">
+                <key id="0">
+                    <object folder="0" file="0" x="-13.014706" y="5.918367" pivot_x="0.514706" pivot_y="0.581633"/>
+                </key>
+                <key id="1" time="500">
+                    <object folder="0" file="0" x="-13.014706" y="5.918367" pivot_x="0.514706" pivot_y="0.581633" angle="138.737471" a="0"/>
+                </key>
+                <key id="2" time="727">
+                    <object folder="0" file="0" x="-12.557965" y="5.918367" pivot_x="0.514706" pivot_y="0.581633" angle="255.989752" scale_y="1" a="0.454"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

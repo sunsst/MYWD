@@ -1,6 +1,12 @@
 STRINGS = GLOBAL.STRINGS
-MYWD_SKILL_STRING = {}
+-------------------------------------------------------------------------------------
 
+STRINGS.NAMES.GHOSTLYELIXIR_DREAM = "美梦药剂"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.GHOSTLYELIXIR_DREAM = "美梦药剂描述"
+
+--------------------------------------------------------------------------------------
+
+MYWD_SKILL_STRING = {}
 STRINGS.SKILLTREE.MYWD = MYWD_SKILL_STRING
 
 STRINGS.SKILLTREE.PANELS.WDGE = "亡语"
@@ -14,6 +20,7 @@ STRINGS.SKILLTREE.PANELS.WDGB = "悔恨"
 STRINGS.SKILLTREE.PANELS.WDGC = "可爱"
 STRINGS.SKILLTREE.PANELS.WDGG = "骨灰盒"
 
+-------------------------------------------------------------------------------------
 
 MYWD_SKILL_STRING.MYWD_WDGA_lock_1_DESC = "绮梦描述[1]"
 MYWD_SKILL_STRING.MYWD_WDGA_lock_2_DESC = "绮梦描述[2]"

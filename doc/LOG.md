@@ -4,7 +4,7 @@
 素材中的大小是851x755像素。游戏中存在resize代码调整到600x460，但实际大小似乎并没有变化。
 背景图必须提前注册：`self.bg_tree = self.root:AddChild(Image(GetSkilltreeBG(self.target.."_background.tex"), self.target.."_background.tex"))`
 ![](img\skilltree2.png)
-```
+``` xml
 <Atlas>
     <Texture filename="skilltree2.tex" />
     <Elements>
@@ -47,7 +47,7 @@
 ## 2024年12月10日
 
 ### 技能树数据结构解析
-```
+``` lua
 local ORDERS =
 {
     { "torch",      { -214 + 18, 176 + 30 } },
@@ -69,7 +69,7 @@ local ORDERS =
 ***如果某个体系没有被按钮引用会引发异常，报错信息：[string "scripts/widgets/redux/skilltreebuilder.lua"]:---: attempt to index local 'panel' (a nil value)***
 
 
-```
+``` lua
 local skills =
 {
     wilson_alchemy_1 = {
@@ -115,3 +115,74 @@ local skills =
 
 ![](img\捕获2.PNG)
 
+### 代码笔记
+#### 资源
+使用 `Asset(type, path)` 包装资源路径。类型支持`"ATLAS"`、`ANIM`。在modmain.lua文件声明`Assets`引入资源。
+
+
+### 组件与预制件
+
+工厂(预制件 `Prefab`) 对象(实体 `Entity`) 装饰器(组件 `Component`)。
+部分组件虽然暴露给lua使用但其在底层用c代码实现，所以无法查看源码。
+用了 `local` 函数少折腾，浪费时间，老老实实自己写吧。
+
+在modmain.lua文件声明`PrefabFiles`引入预制件路径。
+
+添加组件：`inst:AddComponent("xxx")`
+移除组件：`inst:RemoveComponent("xxx")`
+判断是否有组件：`inst.components.xxx == nil`
+
+``` lua
+-- 比较常用的初始化方式
+local name = "ghostlyelixir_dream"
+
+local assets = {
+    Asset("ANIM", "anim/ghostlyelixir_dream.zip"),
+    Asset("IMAGE", "images/ghostlyelixir_dream.tex"),
+    Asset("ATLAS", "images/ghostlyelixir_dream.xml")
+}
+
+local function fn()
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+
+    MakeInventoryPhysics(inst)
+
+    inst.AnimState:SetBuild(name)
+    inst.AnimState:SetBank(name)
+    inst.AnimState:PlayAnimation("default", true)
+
+    MakeInventoryFloatable(inst)
+
+
+    inst:AddComponent("inspectable")
+    inst:AddComponent("inventoryitem")
+    inst:AddComponent("stackable")
+    inst.components.inventoryitem.atlasname = "images/ghostlyelixir_dream.xml"
+
+    inst:AddComponent("ghostlyelixir")
+
+    return inst
+end
+
+return Prefab(name, fn, assets, prefabs)
+```
+
+
+
+### 标签
+查找标签:`inst:HasTag("tag")`
+添加标签:`inst:AddTag("tag")`
+
+``` lua
+"abigail"
+-- 阿比盖尔的专属标签
+```
+
+### 记录
+``` lua
+"elixir_buff"
+-- 灵体草药buff的标志
+```

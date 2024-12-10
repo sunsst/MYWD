@@ -2,11 +2,10 @@ Assets = {
     Asset("ATLAS", "images/wendy_skilltree_bg.xml"),
     Asset("ATLAS", "images/my_icon.xml")
 }
+PrefabFiles = {
+    "mywd_ghostly_elixirs"
+}
 
 modimport("languages/chs")
 modimport("modscripts/skilltree_mywd")
-
-print("MYWD:!!", Assets)
-for index, value in ipairs(Assets) do
-    print("MYWD!!:", value)
-end
+modimport("modscripts/tuning")

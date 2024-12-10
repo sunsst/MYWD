@@ -1,3 +1,6 @@
+-- 改自威尔逊的技能树(prefabs\skilltree_wilson.lua)
+
+
 local ORDERS =
 {
     { "wdga", { -214, 210 } },
@@ -32,6 +35,7 @@ local function BuildSkillsData(SkillTreeFns)
             connects = {
                 "mywd_wdga_lock_2",
             },
+            defaultfocus = true
         },
         mywd_wdga_lock_2 = {
             -- 1 2

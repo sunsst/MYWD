@@ -3,6 +3,7 @@ STRINGS = GLOBAL.STRINGS
 
 STRINGS.NAMES.GHOSTLYELIXIR_DREAM = "美梦药剂"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.GHOSTLYELIXIR_DREAM = "美梦药剂描述"
+STRINGS.RECIPE_DESC.GHOSTLYELIXIR_DREAM = "美梦药剂制作描述"
 
 --------------------------------------------------------------------------------------
 

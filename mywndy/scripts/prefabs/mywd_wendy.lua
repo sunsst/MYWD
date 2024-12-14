@@ -43,14 +43,20 @@ end
 
 TheInput:AddKeyHandler(function(key, down)
     local inst = ThePlayer
-    if inst and key == KEY_INSERT then
-        inst.components.aura:Enable(down)
+    if key == KEY_INSERT and inst.prefab == "wendy" then
         if down then
             inst.components.playervision:PushForcedNightVision(inst, 1, ANCIENTFRUIT_NIGHTVISION_COLOURCUBES,
                 true)
         else
             inst.components.playervision:PopForcedNightVision(inst)
         end
+        SendModRPCToServer(MOD_RPC["mywd"]["aura"], down)
+    end
+end)
+
+AddModRPCHandler("mywd", "aura", function(player, enable)
+    if player.prefab == "wendy" then
+        player.components.aura:Enable(enable)
     end
 end)
 

@@ -1,9 +1,9 @@
 STRINGS = GLOBAL.STRINGS
 -------------------------------------------------------------------------------------
 
-STRINGS.NAMES.GHOSTLYELIXIR_DREAM = "美梦药剂"
-STRINGS.CHARACTERS.GENERIC.DESCRIBE.GHOSTLYELIXIR_DREAM = "美梦药剂描述"
-STRINGS.RECIPE_DESC.GHOSTLYELIXIR_DREAM = "美梦药剂制作描述"
+STRINGS.NAMES.GHOSTLYELIXIR_MOON = "月亮药剂"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.GHOSTLYELIXIR_MOON = "月亮药剂描述"
+STRINGS.RECIPE_DESC.GHOSTLYELIXIR_MOON = "月亮药剂制作描述"
 
 --------------------------------------------------------------------------------------
 

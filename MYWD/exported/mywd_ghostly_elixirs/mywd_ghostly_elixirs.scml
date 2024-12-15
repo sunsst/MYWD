@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0" name="ghostly_elixirs_comp">
+        <file id="0" name="ghostly_elixirs_comp/ghostly_elixirs_comp-0.png" width="171" height="165" pivot_x="0.355117" pivot_y="0.103939"/>
+        <file id="1" name="ghostly_elixirs_comp/ghostly_elixirs_comp-1.png" width="154" height="161" pivot_x="0.284091" pivot_y="0.115683"/>
+        <file id="2" name="ghostly_elixirs_comp/ghostly_elixirs_comp-2.png" width="158" height="160" pivot_x="0.371994" pivot_y="0.100625"/>
+        <file id="3" name="ghostly_elixirs_comp/ghostly_elixirs_comp-3.png" width="142" height="153" pivot_x="0.375704" pivot_y="0.0900327"/>
+        <file id="4" name="ghostly_elixirs_comp/ghostly_elixirs_comp-4.png" width="241" height="183" pivot_x="0.324481" pivot_y="0.0976776"/>
+        <file id="5" name="ghostly_elixirs_comp/ghostly_elixirs_comp-5.png" width="168" height="180" pivot_x="0.362649" pivot_y="0.0788889"/>
+        <file id="6" name="ghostly_elixirs_comp/ghostly_elixirs_comp-6.png" width="112" height="112" pivot_x="0.473684" pivot_y="0.192982"/>
+    </folder>
+    <entity id="0" name="ghostly_elixirs">
+        <animation id="0" name="moon" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp-6" folder="0" file="6" abs_x="0" abs_y="1" abs_pivot_x="0.473684" abs_pivot_y="0.192982" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp-6">
+                <key id="0" spin="0">
+                    <object folder="0" file="6" y="1"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="attack" length="67">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp" folder="0" file="0" abs_x="-4.7" abs_y="0.75" abs_pivot_x="0.355117" abs_pivot_y="0.103939" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="34">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="67">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="1" time="34" spin="0">
+                    <object folder="0" file="0" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="2" time="67" spin="0">
+                    <object folder="0" file="0" x="-4.7" y="0.75" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="healing" length="67">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp" folder="0" file="4" abs_x="-4.7" abs_y="0.75" abs_pivot_x="0.324481" abs_pivot_y="0.097678" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="34">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="67">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="1" time="34" spin="0">
+                    <object folder="0" file="4" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="2" time="67" spin="0">
+                    <object folder="0" file="4" x="-4.7" y="0.75" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="regeneration" length="67">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp" folder="0" file="3" abs_x="-4.7" abs_y="0.75" abs_pivot_x="0.375704" abs_pivot_y="0.090033" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="34">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="67">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="1" time="34" spin="0">
+                    <object folder="0" file="3" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="2" time="67" spin="0">
+                    <object folder="0" file="3" x="-4.7" y="0.75" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="4" name="retaliation" length="67">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp" folder="0" file="5" abs_x="-4.7" abs_y="0.75" abs_pivot_x="0.362649" abs_pivot_y="0.078889" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="34">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="67">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="1" time="34" spin="0">
+                    <object folder="0" file="5" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="2" time="67" spin="0">
+                    <object folder="0" file="5" x="-4.7" y="0.75" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="5" name="shield" length="67">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp" folder="0" file="2" abs_x="-4.7" abs_y="0.75" abs_pivot_x="0.371994" abs_pivot_y="0.100625" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="34">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="67">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="1" time="34" spin="0">
+                    <object folder="0" file="2" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="2" time="67" spin="0">
+                    <object folder="0" file="2" x="-4.7" y="0.75" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="6" name="speed" length="67">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp" folder="0" file="1" abs_x="-4.7" abs_y="0.75" abs_pivot_x="0.284091" abs_pivot_y="0.115683" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="34">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="67">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="1" time="34" spin="0">
+                    <object folder="0" file="1" x="-4.7" y="0.75" angle="0"/>
+                </key>
+                <key id="2" time="67" spin="0">
+                    <object folder="0" file="1" x="-4.7" y="0.75" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

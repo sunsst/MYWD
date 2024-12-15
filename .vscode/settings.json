@@ -6,7 +6,8 @@
         "Asset",
         "TheSim",
         "AddCharacterRecipe",
-        "AddPlayerPostInit"
+        "AddPlayerPostInit",
+        "BuildSkillsData"
     ],
     "Lua.runtime.version": "Lua 5.1"
 }

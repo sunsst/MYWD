@@ -1,0 +1,7 @@
+<Atlas>
+    <Texture filename="skilltree_icon.tex"></Texture>
+    <Elements>
+        <Element name="my_skill_icon.tex" u1="0.439453125" u2="0.470703125" v1="0.5615234375"
+            v2="0.6240234375"></Element>
+    </Elements>
+</Atlas>

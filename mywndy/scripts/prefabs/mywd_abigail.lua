@@ -9,7 +9,9 @@ my_abigail.fn = function()
     -- 不许阿比盖尔生气
     inst.BecomeAggressive = function() end
 
-    inst.AnimState:SetBuild("mywd_abigail")
+    -- inst.AnimState:SetBuild("mywd_abigail")
+
+    inst.AnimState:SetBuild("yc")
 
     return inst
 end

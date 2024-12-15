@@ -3,13 +3,16 @@ Assets = {
     Asset("ATLAS", "images/my_icon.xml"),
     Asset("ANIM", "anim/mywd_status_abigail.zip"),
 
-    Asset("ANIM", "anim/mywd_abigail.zip")
+    Asset("ANIM", "anim/mywd_abigail.zip"),
+    Asset("ATLAS", "images/mywd_ghostly_elixirs.xml"),
+
+    Asset("ANIM", "anim/yc.zip"),
 }
 PrefabFiles = {
     "mywd_ghostly_elixirs",
     "mywd_abigail",
     "mywd_wendy",
-
+    "heart_fx",
 
     "abigail_bullet",
 
@@ -25,15 +28,9 @@ modimport("modscripts/tuning")
 modimport("modscripts/recipes.lua")
 
 
+AddPlayerPostInit(function(inst)
+    if not GLOBAL.TheWorld.ismastersim then return inst end
 
--- GLOBAL.TheInput:AddKeyHandler(function(key, down)
---     if down and key == string.byte(';') and GLOBAL.AllPlayers[1] ~= nil then
---         local x, y, z = GLOBAL.AllPlayers[1].Transform:GetWorldPosition()
---         local entities = GLOBAL.TheSim:FindEntities(x, y, z, 4, {
---             "butterfly"
---         })
-
---         GLOBAL.c_announce(type(entities))
---         GLOBAL.c_announce(#entities)
---     end
--- end)
+    local fx = GLOBAL.SpawnPrefab("heartfx") -- 生成一个特效
+    fx.entity:SetParent(inst.entity)         -- 设置成跟随玩家
+end)

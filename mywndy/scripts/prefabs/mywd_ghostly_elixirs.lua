@@ -81,7 +81,7 @@ local function potion_fn(anim, potion_tunings, buff_prefab)
 
     inst.AnimState:SetBank("ghostly_elixirs")
     inst.AnimState:SetBuild("mywd_ghostly_elixirs")
-    inst.AnimState:PlayAnimation(anim)
+    inst.AnimState:PlayAnimation(anim, true)
     inst.scrapbook_anim = anim
     inst.scrapbook_specialinfo = "GHOSTLYELIXER" .. string.upper(anim)
 

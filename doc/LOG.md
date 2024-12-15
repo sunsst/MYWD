@@ -293,3 +293,50 @@ end
 
 ### 客户端与服务器分离
 省略
+
+## 2024年12月15日
+
+### 试图解释状态机
+首先`scripts/actions.lua`与行为树的中`ActionNode`毫无关系，甚至这两个玩意也毫无关系，行为树做的事与状态机毫无干系。
+
+`Action` 的本质，其实就是事件，就是事件对就是事件。
+`Action`会先被`BufferedAction`包装，然后交给 `inst:PushBufferedAction()`。
+它做了什么我无从而知，但是可以猜想这放进去的动作最终都会被执行，也就会被 `ActionHandler` 监听到。
+由于`ActionHandler`与一个状态图 `StateGraph` 是强绑定的，所以由它负责切换状态机的状态。
+
+那为什么不能直接用event呢？
+
+首先`ActionHandler`简化了从动作到切换状态的过程，只需要在 `ActionHandler(action, state_str or state_ret_fn)` 即可切换。
+其次`BufferredAction` 负载将一个完整动作所需的参与人员环境等等参数
+而 `Action` 负载动作抽象本质，描述的动作的标识符就像事件的那个"onattack"的字符串一样，以及对动作的有效性进行校验。
+
+``` lua
+Action
+动作，先看定义
+
+Action = Class(function(self, data, instant, rmb, distance, ghost_valid, ghost_exclusive, canforce, rangecheckfn) end)
+-- data 如果是table，则后面参数就不用传了，如果不是table，则会将后面的参数当成data的属性来初始化Action
+-- 大致意思就是，Action({rmb=true}) 和 Action(nil, nil, true) 是一样的
+-- instant 应该是瞬间完成的意思（猜的）
+-- rmb
+-- distance 距离
+-- ghost_valid 灵魂状态是否能用这动作
+-- ghost_exclusive 是否是灵魂状态的专有动作
+-- canforce 是否可被强制执行
+-- rangecheckfn 范围检查方法
+-- 游戏内置了很多的动作，它们被定义在了 actions.lua 里
+
+BufferedAction
+-- 执行动作的对象，先看定义
+-- 
+-- BufferedAction = Class(function(self, doer, target, action, invobject, pos, recipe, distance, forced, rotation) end)
+-- doer 执行者，比如人物在采摘的时候，doer就是人物实例
+-- target 目标，采摘时，目标就是被摘的东西
+-- action 动作，就是Action对象，比如采摘的动作就是 Actions.PICK
+-- invobject 猜测应该是代理对象
+-- pos 位置
+-- recipe 配方
+-- distance 距离
+-- forced 强制
+-- rotation 旋转
+```

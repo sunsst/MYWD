@@ -1,0 +1,12 @@
+{
+    "Lua.diagnostics.globals": [
+        "RegisterSkilltreeBGForCharacter",
+        "modimport",
+        "GLOBAL",
+        "Asset",
+        "TheSim",
+        "AddCharacterRecipe",
+        "AddPlayerPostInit"
+    ],
+    "Lua.runtime.version": "Lua 5.1"
+}

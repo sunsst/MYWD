@@ -40,7 +40,7 @@ local modscripts = {
 Assets = {}
 PrefabFiles = prefabs
 
-local atlas_len = #anims
+local atlas_len = #atlas
 for i, name in ipairs(atlas) do
     Assets[i] = Asset("ATLAS", "images/" .. name .. ".xml")
 end

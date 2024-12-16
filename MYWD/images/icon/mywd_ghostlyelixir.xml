@@ -1,7 +1,0 @@
-<Atlas>
-    <Texture filename="mywd_ghostlyelixir.tex" />
-    <Elements>
-        <Element name="ghostlyelixir_moon.tex" u1="0.0078125" u2="0.9921875" v1="0.0078125"
-            v2="0.9921875" />
-    </Elements>
-</Atlas>

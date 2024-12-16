@@ -1,4 +1,7 @@
 /tmp
 /.vscode/*
+/MYWD/anim
+/MYWD/images
+
 
 !/.vscode/settings.json

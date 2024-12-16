@@ -1,0 +1,6 @@
+{
+    "atlas": [
+        "../atlas/mywd_icon"
+    ],
+    "output": "../MYWD/images"
+}

@@ -1,6 +1,7 @@
 {
     "atlas": [
-        "../atlas/mywd_icon"
+        "../atlas/mywd_icon",
+        "../atlas/skilltree_bg"
     ],
     "output": "../MYWD/images"
 }

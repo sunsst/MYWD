@@ -423,12 +423,12 @@ end
 --------------------------------------------------------------------------------------------------
 
 
-local function buildSkillTree(character_name, bg_name, icon_atlas_name, bf_fn)
+local function buildSkillTree(character_name, bg_path, icon_atlas_path, bf_fn)
     local skill_defs = require("prefabs/skilltree_defs")
     local skills = bf_fn(skill_defs.FN)
 
     -- 注册技能树背景图
-    RegisterSkilltreeBGForCharacter("images/bg/" .. bg_name .. ".xml", character_name)
+    RegisterSkilltreeBGForCharacter(bg_path, character_name)
 
     -- 注册技能树图标
     local m = {}
@@ -436,7 +436,7 @@ local function buildSkillTree(character_name, bg_name, icon_atlas_name, bf_fn)
         local icon = skill_data.icon
         if icon and not table.contains(m, icon) then
             m[icon] = true
-            RegisterSkilltreeIconsAtlas("images/icon/" .. icon_atlas_name .. ".xml", skill_data.icon .. ".tex")
+            RegisterSkilltreeIconsAtlas(icon_atlas_path, skill_data.icon .. ".tex")
         end
     end
 
@@ -447,4 +447,4 @@ local function buildSkillTree(character_name, bg_name, icon_atlas_name, bf_fn)
     -- skill_defs.SKILLTREE_METAINFO["wendy"].BACKGROUND_SETTINGS = data.BACKGROUND_SETTINGS
     -- 构建技能树
 end
-buildSkillTree("wendy", "skilltree_bg", "skilltree_icon", BuildSkillsData)
+buildSkillTree("wendy", "images/skilltree_bg.xml", "images/mywd_icon.xml", BuildSkillsData)

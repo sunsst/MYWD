@@ -168,7 +168,7 @@ local function potion_fn(anim, potion_tunings, buff_prefab)
     inst.components.ghostlyelixir.doapplyelixerfn = DoApplyElixir
 
     -- MYWD:物品栏图集
-    inst.components.inventoryitem.atlasname = "images/icon/mywd_ghostlyelixir.xml"
+    inst.components.inventoryitem.atlasname = "images/mywd_icon.xml"
 
 
 
@@ -306,7 +306,7 @@ local function AddPotion(potions, name, anim)
         -- MYWD:修改为自己的动画文件
         Asset("ANIM", "anim/mywd_ghostly_elixirs.zip"),
         Asset("ANIM", "anim/abigail_buff_drip.zip"),
-        Asset("ATLAS", "images/icon/mywd_ghostlyelixir.xml")
+        Asset("ATLAS", "images/mywd_icon.xml")
     }
     local prefabs = {
         buff_prefab,

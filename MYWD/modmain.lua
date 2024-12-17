@@ -33,7 +33,10 @@ local languages = {
 local modscripts = {
     "tuning",
     "skills",
-    "recipes"
+    "recipes",
+    "testutil/show_range",
+    "stategraphs/mywd_abigailbrain",
+    "stategraphs/SGabigail_mywd",
 }
 
 --------------------------------------------------------------------------------------------------------

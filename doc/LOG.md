@@ -340,3 +340,18 @@ BufferedAction
 -- forced 强制
 -- rotation 旋转
 ```
+
+## 2024年12月16日
+
+### 关于动作触发
+代码中主要是通过这个方法触发动作：
+`self.inst.components.locomotor:PushAction(action, FunctionOrValue(self.shouldrun))`
+
+突然恍然大悟，这个run是是否快跑的意思的，不是是否执行的意思。
+
+但实际上实体对象上也有方法：
+`self.inst:PushBufferedAction(bufferedaction)`
+
+前者这个组件由大量的坐标方法以及速度字眼或是为了移动角色而定。
+
+或许是因为运行组件能够提供缓冲槽不会强行打断动作，当然只是猜测。

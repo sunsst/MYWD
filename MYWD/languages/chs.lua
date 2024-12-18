@@ -1,4 +1,14 @@
 STRINGS = GLOBAL.STRINGS
+
+-------------------------------------------------------------------------------------
+
+STRINGS.GHOSTCOMMANDS = {}
+STRINGS.GHOSTCOMMANDS.ATTACK_AT = "Attack At"
+STRINGS.GHOSTCOMMANDS.ESCAPE = "Escape"
+STRINGS.GHOSTCOMMANDS.HAUNT_AT = "Haunt At"
+STRINGS.GHOSTCOMMANDS.SCARE = "Scare"
+STRINGS.GHOSTCOMMANDS.UNSUMMON = "Unsummon"
+
 -------------------------------------------------------------------------------------
 
 STRINGS.NAMES.GHOSTLYELIXIR_MOON = "月亮药剂"

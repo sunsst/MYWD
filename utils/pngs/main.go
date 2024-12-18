@@ -295,7 +295,7 @@ func main() {
 	for _, p := range conf.Atlas {
 		err := pfs.GetFiles(p)
 		if err != nil {
-			fmt.Printf("× 图片搜索[%s]: %v", p, err)
+			fmt.Printf("× 图片搜索[%s]: %v\n", p, err)
 			continue
 		}
 

@@ -2,6 +2,7 @@
 /.vscode/*
 /MYWD/anim
 /MYWD/images
+/utils/go.sum
 
 
 !/.vscode/settings.json

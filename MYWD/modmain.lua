@@ -1,3 +1,4 @@
+MYWDG = {}
 --------------------------------------------------------------------------------------------------------
 
 -- 图集
@@ -11,6 +12,9 @@ local atlas = {
 -- 动画
 local anims = {
     "mywd_ghostly_elixirs", -- 灵体草药的放置动画
+    "spell_icons_wendy",    -- 技能图标
+
+    "mywd_abigail"
 }
 
 --------------------------------------------------------------------------------------------------------
@@ -33,7 +37,20 @@ local languages = {
 local modscripts = {
     "tuning",
     "skills",
-    "recipes"
+    "recipes",
+
+    -- 测试用的库，到时候记得删了
+    "testutil/show_range",
+    "testutil/add_text",
+    "testutil/make_anim_tester",
+    "testutil/put_all_anims",
+
+    -- 阿比盖尔与温蒂
+    -- "stategraphs/SGabigail_mywd.lua",
+    "prefabs/mywd_abigail",
+
+    -- "prefabs/mywd_ghostcommand_defs", -- 温蒂技能模组，必须在花的修改之前
+    "prefabs/mywd_abigail_flower" -- 阿比盖尔的花修改
 }
 
 --------------------------------------------------------------------------------------------------------

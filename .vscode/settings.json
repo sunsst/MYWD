@@ -11,7 +11,8 @@
         "AddPrefabPostInit",
         "AddStategraphPostInit",
         "AddStategraphState",
-        "AddStategraphEvent"
+        "AddStategraphEvent",
+        "env"
     ],
     "Lua.runtime.version": "Lua 5.1"
 }

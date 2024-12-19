@@ -1,7 +1,7 @@
 local R = 1896 / 2 / 1024 * 1.7 * 4
 
 function ShowRange(parent, rad)
-    local inst = GLOBAL.CreateEntity()
+    local inst = CreateEntity()
 
     --[[Non-networked entity]]
     inst.entity:SetCanSleep(false)
@@ -18,8 +18,8 @@ function ShowRange(parent, rad)
     inst.AnimState:SetBuild("firefighter_placement")
     inst.AnimState:PlayAnimation("idle")
     inst.AnimState:SetLightOverride(1)
-    inst.AnimState:SetOrientation(GLOBAL.ANIM_ORIENTATION.OnGround)
-    inst.AnimState:SetLayer(GLOBAL.LAYER_BACKGROUND)
+    inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
+    inst.AnimState:SetLayer(LAYER_BACKGROUND)
     inst.AnimState:SetSortOrder(1)
     inst.AnimState:SetAddColour(0, .2, .5, 0)
 

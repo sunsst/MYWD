@@ -369,3 +369,11 @@ BufferedAction
 
 ### 比例尺
 每 1024px 等于 1.7 块地皮。
+
+### 组件的动作
+在这个文件里 `componentactions.lua` 其中有背包物品的动作。
+
+## 2024年12月19日
+
+## 阿比盖尔之花
+`CASTSUSUMMON` `CASTSUMMON`这个动作负责召唤，将这个动作的优先级进行调整让花的状态得以切换

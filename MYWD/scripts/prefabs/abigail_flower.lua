@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local assets =
 {
     Asset("ANIM", "anim/abigail_flower.zip"),

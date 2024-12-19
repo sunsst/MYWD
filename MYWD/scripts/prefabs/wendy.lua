@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local MakePlayerCharacter = require("prefabs/player_common")
 local WendyFlowerOver = require("widgets/wendyflowerover")
 

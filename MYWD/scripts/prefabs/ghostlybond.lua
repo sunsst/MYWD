@@ -1,17 +1,10 @@
+---@diagnostic disable: redundant-parameter
 local function setsummoned(self)
-    if self.summoned then
-        self.inst:AddTag("ghostfriend_summoned")
-    else
-        self.inst:RemoveTag("ghostfriend_summoned")
-    end
+    self.inst:AddOrRemoveTag("ghostfriend_summoned", self.summoned)
 end
 
 local function setnotsummoned(self)
-    if self.notsummoned then
-        self.inst:AddTag("ghostfriend_notsummoned")
-    else
-        self.inst:RemoveTag("ghostfriend_notsummoned")
-    end
+    self.inst:AddOrRemoveTag("ghostfriend_notsummoned", self.notsummoned)
 end
 
 local function _ghost_onremove(self)
@@ -61,8 +54,6 @@ function GhostlyBond:OnRemoveEntity()
 end
 
 function GhostlyBond:OnSave()
-    local time_remaining = self.bondleveltask ~= nil and GetTaskRemaining(self.bondleveltask) or nil
-
     return {
         bondlevel = self.bondlevel,
         elapsedtime = self.bondleveltimer,
@@ -100,11 +91,6 @@ function GhostlyBond:OnLoad(data)
                 self:SummonComplete()
             end
         end
-    end
-end
-
-function GhostlyBond:LoadPostPass(newents, data)
-    if data ~= nil then
     end
 end
 
@@ -179,10 +165,14 @@ function GhostlyBond:SpawnGhost()
     self:RecallComplete()
 end
 
-function GhostlyBond:Summon(summoningitem)
+function GhostlyBond:Summon(summoningitem, pos)
     if self.ghost ~= nil and self.notsummoned then
         self.ghost.entity:SetParent(nil)
-        self.ghost.Transform:SetPosition(self.inst.Transform:GetWorldPosition())
+        if pos then
+            self.ghost.Transform:SetPosition(pos:Get())
+        else
+            self.ghost.Transform:SetPosition(self.inst.Transform:GetWorldPosition())
+        end
         self.ghost:ReturnToScene()
 
         TheSim:ReskinEntity(self.ghost.GUID, self.ghost.skinname, summoningitem.linked_skinname, summoningitem.skin_id)
@@ -207,6 +197,7 @@ function GhostlyBond:SummonComplete()
     if self.onsummoncompletefn ~= nil then
         self.onsummoncompletefn(self.inst, self.ghost)
     end
+    self.inst:PushEvent("ghostlybond_summoncomplete", self.ghost)
 end
 
 function GhostlyBond:Recall(was_killed)
@@ -232,6 +223,7 @@ function GhostlyBond:RecallComplete()
     if self.onrecallcompletefn ~= nil then
         self.onrecallcompletefn(self.inst, self.ghost)
     end
+    self.inst:PushEvent("ghostlybond_recallcomplete", self.ghost)
 end
 
 function GhostlyBond:ChangeBehaviour()
@@ -243,10 +235,11 @@ end
 
 function GhostlyBond:GetDebugString()
     return tostring(self.ghost) ..
-    ", " ..
-    tostring(self.bondlevel) ..
-    (self.bondleveltimer ~= nil and (", " .. string.format("%0.2f", self.bondlevelmaxtime - self.bondleveltimer)) or "max") ..
-    ", mult: " .. string.format("%0.2f", self.externalbondtimemultipliers:Get()) .. (self.paused and ", paused" or "")
+        ", " ..
+        tostring(self.bondlevel) ..
+        (self.bondleveltimer ~= nil and (", " .. string.format("%0.2f", self.bondlevelmaxtime - self.bondleveltimer)) or "max") ..
+        ", mult: " ..
+        string.format("%0.2f", self.externalbondtimemultipliers:Get()) .. (self.paused and ", paused" or "")
 end
 
 return GhostlyBond

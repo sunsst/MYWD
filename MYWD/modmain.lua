@@ -22,6 +22,12 @@ local anims = {
 -- 预制件
 local prefabs = {
     "mywd_ghostly_elixirs", -- 灵体草药
+    "wendy",
+    "mywd_reticuleaoe",
+    -- "ghostlybond",
+    -- "ghostcommand_defs",
+    "abigail",
+    "abigail_flower"
 }
 
 --------------------------------------------------------------------------------------------------------
@@ -56,6 +62,7 @@ local modscripts = {
 
     -- "prefabs/mywd_ghostcommand_defs", -- 温蒂技能模组，必须在花的修改之前
     -- "prefabs/mywd_abigail_flower"     -- 阿比盖尔的花修改
+
 }
 
 --------------------------------------------------------------------------------------------------------

@@ -29,7 +29,9 @@ local IMPORT_GLOBAL = {
     TECH = true,
     GetScrapbookIconAtlas = true,
 
-    TheGenericKV = true
+    TheGenericKV = true,
+
+    Action = true
 }
 
 -- 不要直接设置 GLOBAL 会报错

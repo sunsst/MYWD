@@ -376,4 +376,15 @@ BufferedAction
 ## 2024年12月19日
 
 ## 阿比盖尔之花
-`CASTSUSUMMON` `CASTSUMMON`这个动作负责召唤，将这个动作的优先级进行调整让花的状态得以切换
+`CASTSUSUMMON` `CASTSUMMON`这个动作负责召唤，将这个动作的优先级进行调整让花的状态得以切换。
+完整的技能释放动作需要由状态机来执行，阿比盖尔的动作在阿比盖尔的状态机，温蒂的动作在温蒂的状态机。
+关注以下动作：
+``` lua
+ACTIONS.CASTSUMMON
+ACTIONS.CASTUNSUMMON
+ACTIONS.COMMUNEWITHSUMMONED
+ACTIONS.CAST_SPELLBOOK
+ACTIONS.APPLYELIXIR
+ACTIONS.CASTSPELL
+ACTIONS.CASTAOE
+```

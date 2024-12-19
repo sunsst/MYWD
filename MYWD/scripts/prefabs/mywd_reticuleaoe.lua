@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 --Reticule art needs to be white
 --multcolour: used by reticule validcolour/invalidcolour
 --addcolour: used by reticule ping

@@ -356,11 +356,8 @@ local SKILLTREE_COMMAND_DEFS =
 --     table.insert(commands, behaviour_command)
 
 --     if owner.components.skilltreeupdater then
---         -- 遍历每个技能点对应的指令
 --         for skill, skill_command in pairs(SKILLTREE_COMMAND_DEFS) do
---             -- 判断是否激活
 --             if owner.components.skilltreeupdater:IsActivated(skill) then
---                 -- 这是判断是否是个双层表
 --                 if skill_command.label then
 --                     table.insert(commands, skill_command)
 --                 else
@@ -405,8 +402,6 @@ end
 local function GetBaseCommands()
     return BASECOMMANDS
 end
-
-
 
 return {
     GetGhostCommandsFor = GetGhostCommandsFor,

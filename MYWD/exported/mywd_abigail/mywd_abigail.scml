@@ -142,7 +142,7 @@
         <file id="7" name="ghost_eyes/ghost_eyes-7.png" width="151" height="63" pivot_x="0.509934" pivot_y="0.744841"/>
         <file id="8" name="ghost_eyes/ghost_eyes-8.png" width="152" height="90" pivot_x="0.503783" pivot_y="0.518889"/>
     </folder>
-    <entity id="0" name="ghost">
+    <entity id="0" name="yc">
         <animation id="0" name="idle" length="2000">
             <mainline>
                 <key id="0">

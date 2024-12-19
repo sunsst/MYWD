@@ -11,4 +11,4 @@ cmd /c autocompiler
 for %%i in ("MYWD\images\*.xml") do move %%i.a %%i
 for %%i in ("MYWD\images\*.png") do del %%i
 
-@REM for /r "MYWD\exported" %%i in ("*.zip") do del %%i
+for /r "MYWD\exported" %%i in ("*.zip") do del %%i

@@ -5,8 +5,8 @@
 -- 比如：AddWendyRecipe("ghostlyelixir_moon", { Ingredient("moon_tree_blossom", 1) }, "mywd_wdga_1", "elixirbrewer")
 local function AddWendyRecipe(prefab, ingredients, builder_skill, builder_tag)
     RegisterScrapbookIconAtlas("images/mywd_icon.xml", prefab .. ".tex")
-    AddCharacterRecipe(prefab, ingredients, GLOBAL.TECH.NONE, {
-            atlas = GLOBAL.GetScrapbookIconAtlas(prefab .. ".tex"),
+    AddCharacterRecipe(prefab, ingredients, TECH.NONE, {
+            atlas = GetScrapbookIconAtlas(prefab .. ".tex"),
             builder_tag = builder_tag,
             product = prefab,
             builder_skill = builder_skill

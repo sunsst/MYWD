@@ -4,7 +4,7 @@ AllAnimTesters = {}
 function MakeAnimTester(build, bank, anim, loop)
     loop = (loop == nil and true) or loop
 
-    local inst = GLOBAL.CreateEntity()
+    local inst = CreateEntity()
 
     inst.entity:AddTransform()
     inst.entity:AddAnimState()

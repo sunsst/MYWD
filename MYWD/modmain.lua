@@ -35,11 +35,16 @@ local languages = {
 
 -- 模组脚本
 local modscripts = {
+    -- 设置全局变量的文件，别动它的位置
+    "menv",
+
+    -- 基本的全局变量设置
     "tuning",
     "skills",
     "recipes",
+    "actions",
 
-    -- 测试用的库，到时候记得删了
+    -- 测试用的库，到时候记得去掉
     "testutil/show_range",
     "testutil/add_text",
     "testutil/make_anim_tester",
@@ -49,8 +54,8 @@ local modscripts = {
     -- "stategraphs/SGabigail_mywd.lua",
     "prefabs/mywd_abigail",
 
-    -- "prefabs/mywd_ghostcommand_defs", -- 温蒂技能模组，必须在花的修改之前
-    "prefabs/mywd_abigail_flower" -- 阿比盖尔的花修改
+    "prefabs/mywd_ghostcommand_defs", -- 温蒂技能模组，必须在花的修改之前
+    "prefabs/mywd_abigail_flower"     -- 阿比盖尔的花修改
 }
 
 --------------------------------------------------------------------------------------------------------

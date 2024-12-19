@@ -2,9 +2,9 @@ local function put_all_anims(build, bank, anims, loop, padding)
     padding = padding or 4
     loop = loop
 
-    local target = GLOBAL.ThePlayer
+    local target = ThePlayer
     if not target or not target:IsValid() or type(anims) ~= "table" then
-        GLOBAL.c_announce("放不出来")
+        c_announce("放不出来")
     end
 
     print(target)
@@ -17,10 +17,10 @@ local function put_all_anims(build, bank, anims, loop, padding)
         local ii = i - 1
         local inst = MakeAnimTesterAt(build, bank, anim, x + (ii % 5) * padding, y, math.floor(ii / 5) * padding + z,
             loop)
-        -- GLOBAL.c_announce((x + (ii % 5) * padding) .. "  |  " .. y .. "  |  " .. (math.floor(ii / 5) * padding + z))
+        -- c_announce((x + (ii % 5) * padding) .. "  |  " .. y .. "  |  " .. (math.floor(ii / 5) * padding + z))
 
         if target then
-            GLOBAL.c_announce(string.format("%s %s.zip",
+            c_announce(string.format("%s %s.zip",
                 (inst.AnimState:GetBuild() == build and inst.AnimState:IsCurrentAnimation(anim)) and
                 "√" or "×", build))
             target = nil
@@ -56,21 +56,24 @@ local anims = {
     "idlexxx",
 }
 
-GLOBAL.TheInput:AddKeyHandler(function(key, down) -- 监听键盘事件
-    if down then
-        if key == GLOBAL.KEY_INSERT then
-            put_all_anims(build_name, bank, anims, loop, padding)
-        elseif key == GLOBAL.KEY_HOME then
-            put_all_anims(build_name, bank, anims, false, padding)
-        elseif key == GLOBAL.KEY_PAGEUP then
-            put_all_anims(build_name, bank, { anims[1] }, false, padding)
-        elseif key == GLOBAL.KEY_END then
-            for _, e in ipairs(AllAnimTesters) do
-                e.ent:Remove()
-                e.text.inst:Remove()
+local function enable()
+    TheInput:AddKeyHandler(function(key, down) -- 监听键盘事件
+        if down then
+            if key == KEY_INSERT then
+                put_all_anims(build_name, bank, anims, loop, padding)
+            elseif key == KEY_HOME then
+                put_all_anims(build_name, bank, anims, false, padding)
+            elseif key == KEY_PAGEUP then
+                put_all_anims(build_name, bank, { anims[1] }, false, padding)
+            elseif key == KEY_END then
+                for _, e in ipairs(AllAnimTesters) do
+                    e.ent:Remove()
+                    e.text.inst:Remove()
+                end
+                AllAnimTesters = {}
+                c_announce("清理完成 " .. #AllAnimTesters)
             end
-            AllAnimTesters = {}
-            GLOBAL.c_announce("清理完成 " .. #AllAnimTesters)
         end
-    end
-end)
+    end)
+end
+enable()

@@ -40,4 +40,3 @@ GLOBAL.setmetatable(env, {
         end
     end
 })
-print("MYWDTICK", GetTick)

@@ -52,10 +52,10 @@ local modscripts = {
 
     -- 阿比盖尔与温蒂
     -- "stategraphs/SGabigail_mywd.lua",
-    "prefabs/mywd_abigail",
+    -- "prefabs/mywd_abigail",
 
-    "prefabs/mywd_ghostcommand_defs", -- 温蒂技能模组，必须在花的修改之前
-    "prefabs/mywd_abigail_flower"     -- 阿比盖尔的花修改
+    -- "prefabs/mywd_ghostcommand_defs", -- 温蒂技能模组，必须在花的修改之前
+    -- "prefabs/mywd_abigail_flower"     -- 阿比盖尔的花修改
 }
 
 --------------------------------------------------------------------------------------------------------

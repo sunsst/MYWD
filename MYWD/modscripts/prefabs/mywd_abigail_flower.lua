@@ -145,4 +145,4 @@ local function post_fn(inst)
 end
 
 
-AddPrefabPostInit("abigail_flower", post_fn)
+-- AddPrefabPostInit("abigail_flower", post_fn)

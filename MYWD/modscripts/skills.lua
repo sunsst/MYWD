@@ -1,419 +1,430 @@
-local groups =
+local orders =
 {
-    { "wdga", { -214, 210 } },
-    { "wdgb", { -214 + 40, 210 } },
-    { "wdgc", { -214 + 80, 210 } },
-    { "wdgd", { -214 + 120, 210 } },
-    { "wdge", { -214 + 160, 210 } },
-    { "wdgf", { -214 + 200, 210 } },
-    { "wdgg", { -214 + 240, 210 } },
-    { "wdgh", { -214 + 280, 210 } },
-    { "wdgj", { -214 + 320, 210 } },
-    { "wdgk", { -214 + 360, 210 } },
+    -- { "ghost",  { 136, 210 } },
+    -- { "heart",  { 136 + 40, 210 } },
+    -- { "flower", { 136 + 80, 210 } },
+    { "mywd_moon",        { -214, 210 } },
+    { "mywd_shadow",      { -214 + 50, 210 } },
+    { "mywd_ghost",       { -214 + 100, 210 } },
+    { "mywd_grave",       { -214 + 150, 210 } },
+    { "mywd_sisturn",     { -214 + 200, 210 } },
+    { "mywd_elixir",      { -214 + 250, 210 } },
+    { "mywd_small_ghost", { -214 + 300, 210 } },
+    { "mywd_altar",       { -214 + 350, 210 } },
+    { "mywd_petal",       { -214 + 400, 210 } },
 }
 
 --------------------------------------------------------------------------------------------------
 
+
 local function BuildSkillsData(SkillTreeFns)
     local skills =
     {
-        -- 绮梦 5
-        mywd_wdga_lock_1 = {
-            -- 1 1
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGA_lock_1_DESC, -- 绮梦
+        -- 月亮线 5
+        mywd_moon_lock_1   = {
+            -- moon 1
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_MOON_LOCK_1_DESC, -- 月亮线
             pos = { -214, 180 },
-            group = "wdga",
-            tags = { "wdga", "lock" },
+            group = "mywd_moon",
+            tags = { "mywd_moon", "lock" },
             root = true,
             lock_open = function(prefabname, activatedskills, readonly)
-                -- return SkillTreeFns.CountTags(prefabname, "torch1", activatedskills) > 2
-                return true
+                if readonly then
+                    return "question"
+                end
+                return TheGenericKV:GetKV("celestialchampion_killed") == "1"
             end,
             connects = {
-                "mywd_wdga_lock_2",
+                "mywd_moon_lock_2",
             },
             defaultfocus = true
         },
-        mywd_wdga_lock_2 = {
-            -- 1 2
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGA_lock_2_DESC, -- 绮梦
-            pos = { -214 + 40, 180 },
-            group = "wdga",
-            tags = { "wdga", "lock" },
+        mywd_moon_lock_2   = {
+            -- moon 2
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_MOON_LOCK_2_DESC, -- 月亮线
+            pos = { -214, 180 - 40 },
+            group = "mywd_moon",
+            tags = { "mywd_moon", "lock" },
             lock_open = function(prefabname, activatedskills, readonly)
-                -- return SkillTreeFns.CountTags(prefabname, "torch1", activatedskills) > 2
-                return true
+                -- MYWD:锁一下看看效果
+                -- if SkillTreeFns.CountTags(prefabname, "shadow_favor", activatedskills) == 0 then
+                --     return true
+                -- end
+                return nil -- Important to return nil and not false.
             end,
             connects = {
-                "mywd_wdga_1",
+                "mywd_moon_1",
             },
         },
-        mywd_wdga_1 = {
-            -- 1 3
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGA_1_TITLE, -- 绮梦
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGA_1_DESC,   -- 绮梦
+        mywd_moon_1        = {
+            -- moon 3
+            title = STRINGS.SKILLTREE.MYWD.MYWD_MOON_1_TITLE, -- 月亮线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_MOON_1_DESC,   -- 月亮线
             icon = "my_skill_icon",
-            pos = { -214 + 80, 180 },
-            group = "wdga",
-            tags = { "wdga" },
+            pos = { -214, 180 - 80 },
+            group = "mywd_moon",
+            tags = { "mywd_moon" },
+            locks = { "mywd_moon_lock_1", "mywd_moon_lock_2" },
             connects = {
-                "mywd_wdga_2",
+                "mywd_moon_2",
             },
         },
-        mywd_wdga_2 = {
-            -- 1 4
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGA_2_TITLE, -- 绮梦
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGA_2_DESC,   -- 绮梦
+        mywd_moon_2        = {
+            -- moon 4
+            title = STRINGS.SKILLTREE.MYWD.MYWD_MOON_2_TITLE, -- 月亮线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_MOON_2_DESC,   -- 月亮线
             icon = "my_skill_icon",
-            pos = { -214 + 120, 180 },
-            group = "wdga",
-            tags = { "wdga" },
-            connects = {
-                "mywd_wdga_3",
-            },
+            pos = { -214, 180 - 120 },
+            group = "mywd_moon",
+            tags = { "mywd_moon" },
         },
-        mywd_wdga_3 = {
-            -- 1 5
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGA_3_TITLE, -- 绮梦
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGA_3_DESC,   -- 绮梦
-            icon = "my_skill_icon",
-            pos = { -214 + 160, 180 },
-            group = "wdga",
-            tags = { "wdga" },
-        },
-
         -----------------------------------------------------------------------------
 
-        --懊悔 5
-        mywd_wdgb_lock_1 = {
-            -- 2 1
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGB_lock_1_DESC, -- 懊悔
-            pos = { -214, 180 - 60 },
-            group = "wdgb",
-            tags = { "wdgb", "lock" },
+        --暗影线 5
+        mywd_shadow_lock_1 = {
+            -- shadow 1
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SHADOW_LOCK_1_DESC, -- 暗影线
+            pos = { -164, 180 },
+            group = "mywd_shadow",
+            tags = { "mywd_shadow", "lock" },
             root = true,
             lock_open = function(prefabname, activatedskills, readonly)
-                -- return SkillTreeFns.CountTags(prefabname, "torch1", activatedskills) > 2
-                return true
+                if readonly then
+                    return "question"
+                end
+                return TheGenericKV:GetKV("fuelweaver_killed") == "1"
             end,
             connects = {
-                "mywd_wdgb_lock_2",
+                "mywd_shadow_lock_2",
             },
         },
-        mywd_wdgb_lock_2 = {
-            -- 2 2
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGB_lock_2_DESC, -- 懊悔
-            pos = { -214 + 40, 180 - 60 },
-            group = "wdgb",
-            tags = { "wdgb", "lock" },
+        mywd_shadow_lock_2 = {
+            -- shadow 2
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SHADOW_LOCK_2_DESC, -- 暗影线
+            pos = { -164, 180 - 40 },
+            group = "mywd_shadow",
+            tags = { "mywd_shadow", "lock" },
             lock_open = function(prefabname, activatedskills, readonly)
-                -- return SkillTreeFns.CountTags(prefabname, "torch1", activatedskills) > 2
-                return true
+                if SkillTreeFns.CountTags(prefabname, "lunar_favor", activatedskills) == 0 then
+                    return true
+                end
+                return nil -- Important to return nil and not false.
             end,
             connects = {
-                "mywd_wdgb_1",
+                "mywd_shadow_1",
             },
         },
-        mywd_wdgb_1 = {
-            -- 2 3
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGB_1_TITLE, -- 懊悔
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGB_1_DESC,   -- 懊悔
+        mywd_shadow_1      = {
+            -- shadow 3
+            title = STRINGS.SKILLTREE.MYWD.MYWD_SHADOW_1_TITLE, -- 暗影线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SHADOW_1_DESC,   -- 暗影线
             icon = "my_skill_icon",
-            pos = { -214 + 80, 180 - 60 },
-            group = "wdgb",
-            tags = { "wdgb" },
+            pos = { -164, 180 - 80 },
+            group = "mywd_shadow",
+            tags = { "mywd_shadow" },
+            locks = { "mywd_shadow_lock_1", "mywd_shadow_lock_2" },
             connects = {
-                "mywd_wdgb_2",
+                "mywd_shadow_2",
             },
         },
-        mywd_wdgb_2 = {
-            -- 2 4
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGB_2_TITLE, -- 懊悔
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGB_2_DESC,   -- 懊悔
+        mywd_shadow_2      = {
+            -- shadow 4
+            title = STRINGS.SKILLTREE.MYWD.MYWD_SHADOW_2_TITLE, -- 暗影线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SHADOW_2_DESC,   -- 暗影线
             icon = "my_skill_icon",
-            pos = { -214 + 120, 180 - 60 },
-            group = "wdgb",
-            tags = { "wdgb" },
-            connects = {
-                "mywd_wdgb_3",
-            },
-        },
-        mywd_wdgb_3 = {
-            -- 2 5
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGB_3_TITLE, -- 懊悔
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGB_3_DESC,   -- 懊悔
-            icon = "my_skill_icon",
-            pos = { -214 + 160, 180 - 60 },
-            group = "wdgb",
-            tags = { "wdgb" },
+            pos = { -164, 180 - 120 },
+            group = "mywd_shadow",
+            tags = { "mywd_shadow" },
         },
 
         -----------------------------------------------------------------------------
 
-        --可爱 3
-        mywd_wdgc_1 = {
-            -- 3 1
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGC_1_TITLE, -- 可爱
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGC_1_DESC,   -- 可爱
+        --鬼魂线 4
+        mywd_ghost_1       = {
+            -- ghost 1
+            title = STRINGS.SKILLTREE.MYWD.MYWD_GHOST_1_TITLE, -- 鬼魂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_GHOST_1_DESC,   -- 鬼魂线
             icon = "my_skill_icon",
-            pos = { -214 + 220, 180 },
-            group = "wdgc",
-            tags = { "wdgc" },
+            pos = { -114, 180 },
+            group = "mywd_ghost",
+            tags = { "mywd_ghost" },
             root = "true",
             connects = {
-                "mywd_wdgc_2"
+                "mywd_ghost_2"
             },
         },
-        mywd_wdgc_2 = {
-            -- 3 2
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGC_2_TITLE, -- 可爱
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGC_2_DESC,   -- 可爱
+        mywd_ghost_2       = {
+            -- ghost 2
+            title = STRINGS.SKILLTREE.MYWD.MYWD_GHOST_2_TITLE, -- 鬼魂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_GHOST_2_DESC,   -- 鬼魂线
             icon = "my_skill_icon",
-            pos = { -214 + 220, 180 - 40 },
-            group = "wdgc",
-            tags = { "wdgc" },
+            pos = { -114, 180 - 40 },
+            group = "mywd_ghost",
+            tags = { "mywd_ghost" },
             connects = {
-                "mywd_wdgc_3"
+                "mywd_ghost_3"
             },
         },
-        mywd_wdgc_3 = {
-            -- 3 3
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGC_3_TITLE, -- 可爱
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGC_3_DESC,   -- 可爱
+        mywd_ghost_3       = {
+            -- ghost 3
+            title = STRINGS.SKILLTREE.MYWD.MYWD_GHOST_3_TITLE, -- 鬼魂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_GHOST_3_DESC,   -- 鬼魂线
             icon = "my_skill_icon",
-            pos = { -214 + 220, 180 - 80 },
-            group = "wdgc",
-            tags = { "wdgc" },
+            pos = { -114, 180 - 80 },
+            group = "mywd_ghost",
+            tags = { "mywd_ghost" },
+            connects = {
+                "mywd_ghost_4"
+            },
+        },
+        mywd_ghost_4       = {
+            -- ghost 4
+            title = STRINGS.SKILLTREE.MYWD.MYWD_GHOST_3_TITLE, -- 鬼魂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_GHOST_3_DESC,   -- 鬼魂线
+            icon = "my_skill_icon",
+            pos = { -114, 180 - 120 },
+            group = "mywd_ghost",
+            tags = { "mywd_ghost" },
         },
 
         -----------------------------------------------------------------------------
 
-        --花篮 1
-        mywd_wdgd_1 = {
-            -- 4 1
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGD_1_TITLE, -- 花篮
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGD_1_DESC,   -- 花篮
+        --祭坛线线 2
+        mywd_grave_1       = {
+            -- grave 1
+            title = STRINGS.SKILLTREE.MYWD.MYWD_GRAVE_1_TITLE, -- 祭坛线线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_GRAVE_1_DESC,   -- 祭坛线线
             icon = "my_skill_icon",
-            pos = { -214 + 280, 180 },
-            group = "wdgd",
-            tags = { "wdgd" },
+            pos = { -64, 180 },
+            group = "mywd_grave",
+            tags = { "mywd_grave" },
             root = "true",
+            connects = {
+                "mywd_grave_2"
+            },
+        },
+        mywd_grave_2       = {
+            -- grave 2
+            title = STRINGS.SKILLTREE.MYWD.MYWD_GRAVE_2_TITLE, -- 祭坛线线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_GRAVE_2_DESC,   -- 祭坛线线
+            icon = "my_skill_icon",
+            pos = { -64, 180 - 40 },
+            group = "mywd_grave",
+            tags = { "mywd_grave" },
         },
 
         -----------------------------------------------------------------------------
 
-        --亡语 1
-        mywd_wdge_2 = {
-            -- 5 1
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGE_2_TITLE, -- 亡语
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGE_2_DESC,   -- 亡语
+        --骨灰罐线 3
+        mywd_sisturn_1     = {
+            -- sisturn 1
+            title = STRINGS.SKILLTREE.MYWD.MYWD_SISTURN_1_TITLE, -- 骨灰罐线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SISTURN_1_DESC,   -- 骨灰罐线
             icon = "my_skill_icon",
-            pos = { -214 + 280, 180 - 60 },
-            group = "wdge",
-            tags = { "wdge" },
+            pos = { -14, 180 },
+            group = "mywd_sisturn",
+            tags = { "mywd_sisturn" },
             root = "true",
+            connects = {
+                "mywd_sisturn_2"
+            },
+        },
+        mywd_sisturn_2     = {
+            -- sisturn 2
+            title = STRINGS.SKILLTREE.MYWD.MYWD_SISTURN_2_TITLE, -- 骨灰罐线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SISTURN_2_DESC,   -- 骨灰罐线
+            icon = "my_skill_icon",
+            pos = { -14, 180 - 40 },
+            group = "mywd_sisturn",
+            tags = { "mywd_sisturn" },
+            connects = {
+                "mywd_sisturn_3"
+            },
+        },
+        mywd_sisturn_3     = {
+            -- sisturn 3
+            title = STRINGS.SKILLTREE.MYWD.MYWD_SISTURN_3_TITLE, -- 骨灰罐线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SISTURN_3_DESC,   -- 骨灰罐线
+            icon = "my_skill_icon",
+            pos = { -14, 180 - 80 },
+            group = "mywd_sisturn",
+            tags = { "mywd_sisturn" },
         },
 
         -----------------------------------------------------------------------------
 
-        --灵药 3
-        mywd_wdgf_1 = {
-            -- 6 1
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGF_1_TITLE, -- 灵药
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGF_1_DESC,   -- 灵药
+        --药剂线 5
+        mywd_elixir_1      = {
+            -- elixir 1
+            title = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_1_TITLE, -- 药剂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_1_DESC,   -- 药剂线
             icon = "my_skill_icon",
-            pos = { -214 + 340, 180 },
-            group = "wdgf",
-            tags = { "wdgf" },
+            pos = { 36, 180 },
+            group = "mywd_elixir",
+            tags = { "mywd_elixir" },
             root = "true",
             connects = {
-                "mywd_wdgf_2"
+                "mywd_elixir_2"
             },
         },
-        mywd_wdgf_2 = {
-            -- 6 2
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGF_2_TITLE, -- 灵药
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGF_2_DESC,   -- 灵药
+        mywd_elixir_2      = {
+            -- elixir 2
+            title = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_2_TITLE, -- 药剂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_2_DESC,   -- 药剂线
             icon = "my_skill_icon",
-            pos = { -214 + 340, 180 - 40 },
-            group = "wdgf",
-            tags = { "wdgf" },
+            pos = { 36, 180 - 40 },
+            group = "mywd_elixir",
+            tags = { "mywd_elixir" },
             connects = {
-                "mywd_wdgf_3"
+                "mywd_elixir_3"
             },
         },
-        mywd_wdgf_3 = {
-            -- 6 3
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGF_3_TITLE, -- 灵药
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGF_3_DESC,   -- 灵药
+        mywd_elixir_3      = {
+            -- elixir 3
+            title = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_3_TITLE, -- 药剂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_3_DESC,   -- 药剂线
             icon = "my_skill_icon",
-            pos = { -214 + 340, 180 - 80 },
-            group = "wdgf",
-            tags = { "wdgf" },
+            pos = { 36, 180 - 80 },
+            group = "mywd_elixir",
+            tags = { "mywd_elixir" },
+            connects = {
+                "mywd_elixir_4"
+            },
+        },
+        mywd_elixir_4      = {
+            -- elixir 4
+            title = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_4_TITLE, -- 药剂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_4_DESC,   -- 药剂线
+            icon = "my_skill_icon",
+            pos = { 36, 180 - 120 },
+            group = "mywd_elixir",
+            tags = { "mywd_elixir" },
+            connects = {
+                "mywd_elixir_5"
+            },
+        },
+        mywd_elixir_5      = {
+            -- elixir 5
+            title = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_5_TITLE, -- 药剂线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_ELIXIR_5_DESC,   -- 药剂线
+            icon = "my_skill_icon",
+            pos = { 36, 180 - 160 },
+            group = "mywd_elixir",
+            tags = { "mywd_elixir" },
         },
 
         -----------------------------------------------------------------------------
 
-        --骨灰盒 3
-        mywd_wdgg_1 = {
-            -- 7 1
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGG_1_TITLE, -- 骨灰盒
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGG_1_DESC,   -- 骨灰盒
+        --小惊吓线 3
+        mywd_small_ghost_1 = {
+            -- small_ghost 1
+            title = STRINGS.SKILLTREE.MYWD.MYWD_SMALL_GHOST_1_TITLE, -- 小惊吓线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SMALL_GHOST_1_DESC,   -- 小惊吓线
             icon = "my_skill_icon",
-            pos = { -214 + 400, 180 },
-            group = "wdgg",
-            tags = { "wdgg" },
+            pos = { 86, 180 },
+            group = "mywd_small_ghost",
+            tags = { "mywd_small_ghost" },
             root = "true",
             connects = {
-                "mywd_wdgg_2"
+                "mywd_small_ghost_2"
             },
         },
-        mywd_wdgg_2 = {
-            -- 7 2
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGG_2_TITLE, -- 骨灰盒
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGG_2_DESC,   -- 骨灰盒
+        mywd_small_ghost_2 = {
+            -- small_ghost 2
+            title = STRINGS.SKILLTREE.MYWD.MYWD_SMALL_GHOST_2_TITLE, -- 小惊吓线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SMALL_GHOST_2_DESC,   -- 小惊吓线
             icon = "my_skill_icon",
-            pos = { -214 + 400, 180 - 40 },
-            group = "wdgg",
-            tags = { "wdgg" },
+            pos = { 86, 180 - 40 },
+            group = "mywd_small_ghost",
+            tags = { "mywd_small_ghost" },
             connects = {
-                "mywd_wdgg_3"
+                "mywd_small_ghost_3"
             },
         },
-        mywd_wdgg_3 = {
-            -- 7 3
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGG_3_TITLE, -- 骨灰盒
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGG_3_DESC,   -- 骨灰盒
+        mywd_small_ghost_3 = {
+            -- small_ghost 3
+            title = STRINGS.SKILLTREE.MYWD.MYWD_SMALL_GHOST_3_TITLE, -- 小惊吓线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_SMALL_GHOST_3_DESC,   -- 小惊吓线
             icon = "my_skill_icon",
-            pos = { -214 + 400, 180 - 80 },
-            group = "wdgg",
-            tags = { "wdgg" },
+            pos = { 86, 180 - 80 },
+            group = "mywd_small_ghost",
+            tags = { "mywd_small_ghost" },
         },
 
         -----------------------------------------------------------------------------
 
-        --小惊吓 3
-        mywd_wdgh_1 = {
-            -- 8 1
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGH_1_TITLE, -- 小惊吓
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGH_1_DESC,   -- 小惊吓
+        --祭坛线 3
+        mywd_altar_1       = {
+            -- altar 1
+            title = STRINGS.SKILLTREE.MYWD.MYWD_ALTAR_1_TITLE, -- 祭坛线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_ALTAR_1_DESC,   -- 祭坛线
             icon = "my_skill_icon",
-            pos = { -214, 180 - 140 },
-            group = "wdgh",
-            tags = { "wdgh" },
+            pos = { 136, 180 },
+            group = "mywd_altar",
+            tags = { "mywd_altar" },
             root = "true",
             connects = {
-                "mywd_wdgh_2"
+                "mywd_altar_2"
             },
         },
-        mywd_wdgh_2 = {
-            -- 8 2
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGH_2_TITLE, -- 小惊吓
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGH_2_DESC,   -- 小惊吓
+        mywd_altar_2       = {
+            -- altar 2
+            title = STRINGS.SKILLTREE.MYWD.MYWD_ALTAR_2_TITLE, -- 祭坛线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_ALTAR_2_DESC,   -- 祭坛线
             icon = "my_skill_icon",
-            pos = { -214 + 40, 180 - 140 },
-            group = "wdgh",
-            tags = { "wdgh" },
+            pos = { 136, 180 - 40 },
+            group = "mywd_altar",
+            tags = { "mywd_altar" },
             connects = {
-                "mywd_wdgh_3"
+                "mywd_altar_3"
             },
         },
-        mywd_wdgh_3 = {
-            -- 8 3
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGH_3_TITLE, -- 小惊吓
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGH_3_DESC,   -- 小惊吓
+        mywd_altar_3       = {
+            -- altar 3
+            title = STRINGS.SKILLTREE.MYWD.MYWD_ALTAR_3_TITLE, -- 祭坛线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_ALTAR_3_DESC,   -- 祭坛线
             icon = "my_skill_icon",
-            pos = { -214 + 80, 180 - 140 },
-            group = "wdgh",
-            tags = { "wdgh" },
+            pos = { 136, 180 - 80 },
+            group = "mywd_altar",
+            tags = { "mywd_altar" },
         },
 
         -----------------------------------------------------------------------------
 
-        --墓碑 3
-        mywd_wdgj_1 = {
-            -- 9 1
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGJ_1_TITLE, -- 墓碑
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGJ_1_DESC,   -- 墓碑
+        --花瓣线 3
+        mywd_petal_1       = {
+            -- petal 1
+            title = STRINGS.SKILLTREE.MYWD.MYWD_PETAL_1_TITLE, -- 花瓣线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_PETAL_1_DESC,   -- 花瓣线
             icon = "my_skill_icon",
-            pos = { -214 + 140, 180 - 140 },
-            group = "wdgj",
-            tags = { "wdgj" },
+            pos = { 186, 180 },
+            group = "mywd_petal",
+            tags = { "mywd_petal" },
             root = "true",
             connects = {
-                "mywd_wdgj_2"
+                "mywd_petal_2"
             },
         },
-        mywd_wdgj_2 = {
-            -- 9 2
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGJ_2_TITLE, -- 墓碑
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGJ_2_DESC,   -- 墓碑
+        mywd_petal_2       = {
+            -- petal 2
+            title = STRINGS.SKILLTREE.MYWD.MYWD_PETAL_2_TITLE, -- 花瓣线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_PETAL_2_DESC,   -- 花瓣线
             icon = "my_skill_icon",
-            pos = { -214 + 180, 180 - 140 },
-            group = "wdgj",
-            tags = { "wdgj" },
+            pos = { 186, 180 - 40 },
+            group = "mywd_petal",
+            tags = { "mywd_petal" },
             connects = {
-                "mywd_wdgj_3"
+                "mywd_petal_3"
             },
         },
-        mywd_wdgj_3 = {
-            -- 9 3
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGJ_3_TITLE, -- 墓碑
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGJ_3_DESC,   -- 墓碑
+        mywd_petal_3       = {
+            -- petal 3
+            title = STRINGS.SKILLTREE.MYWD.MYWD_PETAL_3_TITLE, -- 花瓣线
+            desc = STRINGS.SKILLTREE.MYWD.MYWD_PETAL_3_DESC,   -- 花瓣线
             icon = "my_skill_icon",
-            pos = { -214 + 220, 180 - 140 },
-            group = "wdgj",
-            tags = { "wdgj" },
-        },
-
-        -----------------------------------------------------------------------------
-
-        --虚影 3
-        mywd_wdgk_1 = {
-            -- 10 1
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGK_1_TITLE, -- 虚影
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGK_1_DESC,   -- 虚影
-            icon = "my_skill_icon",
-            pos = { -214 + 280, 180 - 140 },
-            group = "wdgk",
-            tags = { "wdgk" },
-            root = "true",
-            connects = {
-                "mywd_wdgk_2"
-            },
-        },
-        mywd_wdgk_2 = {
-            -- 10 2
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGK_2_TITLE, -- 虚影
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGK_2_DESC,   -- 虚影
-            icon = "my_skill_icon",
-            pos = { -214 + 320, 180 - 140 },
-            group = "wdgk",
-            tags = { "wdgk" },
-            connects = {
-                "mywd_wdgk_3"
-            },
-        },
-        mywd_wdgk_3 = {
-            -- 10 3
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGK_3_TITLE, -- 虚影
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGK_3_DESC,   -- 虚影
-            icon = "my_skill_icon",
-            pos = { -214 + 360, 180 - 140 },
-            group = "wdgk",
-            tags = { "wdgk" },
-            connects = {
-                "mywd_wdgk_4"
-            },
-        },
-        mywd_wdgk_4 = {
-            -- 10 4
-            title = STRINGS.SKILLTREE.MYWD.MYWD_WDGK_4_TITLE, -- 虚影
-            desc = STRINGS.SKILLTREE.MYWD.MYWD_WDGK_4_DESC,   -- 虚影
-            icon = "my_skill_icon",
-            pos = { -214 + 400, 180 - 140 },
-            group = "wdgk",
-            tags = { "wdgk" },
+            pos = { 186, 180 - 80 },
+            group = "mywd_petal",
+            tags = { "mywd_petal" }
         },
     }
 
@@ -443,7 +454,7 @@ local function buildSkillTree(character_name, bg_path, icon_atlas_path, bf_fn)
 
 
     skill_defs.CreateSkillTreeFor(character_name, skills)
-    skill_defs.SKILLTREE_ORDERS[character_name] = groups
+    skill_defs.SKILLTREE_ORDERS[character_name] = orders
     -- skill_defs.SKILLTREE_METAINFO["wendy"].BACKGROUND_SETTINGS = data.BACKGROUND_SETTINGS
     -- 构建技能树
 end

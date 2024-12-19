@@ -1,7 +1,7 @@
 -- 在这个文件里梭哈所有的全局变量
 -- 只会影响到 "modscripts/**.lua" 和 "modmain.lua"
 local IMPORT_GLOBAL = {
-    GetTick = true,
+    STRINGS = true,
     ACTIONS = true,
     TUNING = true,
     CreateEntity = true,
@@ -28,6 +28,8 @@ local IMPORT_GLOBAL = {
 
     TECH = true,
     GetScrapbookIconAtlas = true,
+
+    TheGenericKV = true
 }
 
 -- 不要直接设置 GLOBAL 会报错

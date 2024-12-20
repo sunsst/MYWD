@@ -2,7 +2,9 @@
 /.vscode/*
 /MYWD/anim
 /MYWD/images
+/MYWD/scripts/**
 /utils/go.sum
 
 
+!/MYWD/scripts/**/mywd*.lua
 !/.vscode/settings.json

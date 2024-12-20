@@ -31,7 +31,12 @@ local IMPORT_GLOBAL = {
 
     TheGenericKV = true,
 
-    Action = true
+    Action = true,
+    UPGRADETYPES = true,
+    CHARACTER_INGREDIENT = true,
+
+    resolvefilepath = true,
+    subfmt = true
 }
 
 -- 不要直接设置 GLOBAL 会报错

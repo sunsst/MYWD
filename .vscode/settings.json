@@ -13,7 +13,9 @@
         "AddStategraphState",
         "AddStategraphEvent",
         "env",
-        "AddAction"
+        "AddAction",
+        "AddRecipePostInit"
     ],
-    "Lua.runtime.version": "Lua 5.1"
+    "Lua.runtime.version": "Lua 5.1",
+    "python.analysis.autoImportCompletions": true
 }

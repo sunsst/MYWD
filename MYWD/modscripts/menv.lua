@@ -31,7 +31,12 @@ local IMPORT_GLOBAL = {
 
     TheGenericKV = true,
 
-    Action = true
+    Action = true,
+    ActionHandler = true,
+    TheNet = true,
+    FRAMES = true,
+    TimeEvent = true,
+    State = true
 }
 
 -- 不要直接设置 GLOBAL 会报错

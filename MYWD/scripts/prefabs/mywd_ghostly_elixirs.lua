@@ -1,10 +1,15 @@
--- 该文件修改自：scripts\prefabs\ghostly_elixirs.lua
+-- 源代码：scripts\prefabs\ghostly_elixirs.lua
 
+---------------------------------------------------------------------------------------- Jowwar up
 local potion_tunings =
 {
-    -- MYWD:月亮药水示例
+    -- 月亮药剂
     ghostlyelixir_moon =
     {
+        -- 药剂效果的更新频率
+        TICK_RATE = TUNING.MYWD_ELIXIRS.GHOSTLYELIXIR_MOON_TICK_TIME,
+
+        -- 使用药剂，可修改为事件
         ONAPPLY = function(inst, target)
             if not target.components.planardamage then
                 target:AddComponent("planardamage")
@@ -14,83 +19,77 @@ local potion_tunings =
                 target:AddComponent("planardefense")
             end
 
-            target.components.planardamage:SetBaseDamage(TUNING.MYWD.GHOSTLYELIXIR_MOON_DAMAGE)
-            target.components.planardefense:SetBaseDefense(TUNING.MYWD.GHOSTLYELIXIR_MOON_DEFENSE)
+            target.components.planardamage:SetBaseDamage(TUNING.MYWD_ELIXIRS.GHOSTLYELIXIR_MOON_PLANAR_DAMAGE)
+            target.components.planardefense:SetBaseDefense(TUNING.MYWD_ELIXIRS.GHOSTLYELIXIR_MOON_PLANAR_DEFENSE)
         end,
+
+        -- 移除药剂效果
         ONDETACH = function(inst, target)
             if target.components.planardamage then
                 target.components.planardamage:SetBaseDamage(0)
                 -- target.components.planardamage:SetBaseDamage(
-                --     target.components.planardamage:GetBaseDamage() - TUNING.MYWD.GHOSTLYELIXIR_MOON_DAMAGE)
+                --     target.components.planardamage:GetBaseDamage() - TUNING.MYWD.GHOSTLYELIXIR_MOON_PLANAR_DAMAGE)
             end
 
             if target.components.planardefense then
                 target.components.planardefense:SetBaseDefense(0)
                 -- target.components.planardamage:SetBaseDefense(
-                --     target.components.planardamage:GetBaseDefense() - TUNING.MYWD.GHOSTLYELIXIR_MOON_DEFENSE)
+                --     target.components.planardamage:GetBaseDefense() - TUNING.MYWD.GHOSTLYELIXIR_MOON_PLANAR_DEFENSE)
             end
         end,
-        DURATION = TUNING.MYWD.GHOSTLYELIXIR_MOON_DURATION,
-        FLOATER = { "small", 0.1, 0.5 },
-        fx = "ghostlyelixir_attack_fx",
-        dripfx = "ghostlyelixir_attack_dripfx",
-    },
-    -- ghostlyelixir_slowregen =
-    -- {
-    --     TICK_RATE = TUNING.GHOSTLYELIXIR_SLOWREGEN_TICK_TIME,
-    --     ONAPPLY = function(inst, target) target:PushEvent("startsmallhealthregen", inst) end,
-    --     TICK_FN = function(inst, target)
-    --         target.components.health:DoDelta(TUNING.GHOSTLYELIXIR_SLOWREGEN_HEALING, true,
-    --             inst.prefab)
-    --     end,
-    --     DURATION = TUNING.GHOSTLYELIXIR_SLOWREGEN_DURATION,
-    --     FLOATER = { "small", 0.15, 0.55 },
-    --     fx = "ghostlyelixir_slowregen_fx",
-    --     dripfx = "ghostlyelixir_slowregen_dripfx",
-    -- },
-    -- ghostlyelixir_fastregen =
-    -- {
-    --     TICK_RATE = TUNING.GHOSTLYELIXIR_FASTREGEN_TICK_TIME,
-    --     ONAPPLY = function(inst, target) target:PushEvent("starthealthregen", inst) end,
-    --     TICK_FN = function(inst, target)
-    --         target.components.health:DoDelta(TUNING.GHOSTLYELIXIR_FASTREGEN_HEALING, true,
-    --             inst.prefab)
-    --     end,
-    --     DURATION = TUNING.GHOSTLYELIXIR_FASTREGEN_DURATION,
-    --     FLOATER = { "small", 0.15, 0.55 },
-    --     fx = "ghostlyelixir_fastregen_fx",
-    --     dripfx = "ghostlyelixir_fastregen_dripfx",
-    -- },
-    -- ghostlyelixir_speed =
-    -- {
-    --     DURATION = TUNING.GHOSTLYELIXIR_SPEED_DURATION,
-    --     ONAPPLY = function(inst, target)
-    --         target.components.locomotor:SetExternalSpeedMultiplier(inst, "ghostlyelixir",
-    --             TUNING.GHOSTLYELIXIR_SPEED_LOCO_MULT)
-    --     end,
-    --     FLOATER = { "small", 0.2, 0.4 },
-    --     fx = "ghostlyelixir_speed_fx",
-    --     dripfx = "ghostlyelixir_speed_dripfx",
-    --     speed_hauntable = true,
-    -- },
-    -- ghostlyelixir_shield =
-    -- {
-    --     DURATION = TUNING.GHOSTLYELIXIR_SHIELD_DURATION,
-    --     FLOATER = { "small", 0.15, 0.8 },
-    --     shield_prefab = "abigailforcefieldbuffed",
-    --     fx = "ghostlyelixir_shield_fx",
-    --     dripfx = "ghostlyelixir_shield_dripfx",
-    -- },
-    -- ghostlyelixir_retaliation =
-    -- {
-    --     DURATION = TUNING.GHOSTLYELIXIR_RETALIATION_DURATION,
-    --     FLOATER = { "small", 0.2, 0.4 },
-    --     shield_prefab = "abigailforcefieldretaliation",
-    --     fx = "ghostlyelixir_retaliation_fx",
-    --     dripfx = "ghostlyelixir_retaliation_dripfx",
-    -- },
-}
 
+        -- TICK_FN = function(inst, target) target.components.health:DoDelta(TUNING.GHOSTLYELIXIR_SLOWREGEN_HEALING, true, inst.prefab) end,  -- 处理药剂的效果
+        DURATION = TUNING.MYWD_ELIXIRS.GHOSTLYELIXIR_MOON_DURATION,  -- 药剂持续时间
+        FLOATER = { "small", 0.15, 0.55 },  -- 水中浮动效果
+        fx = "ghostlyelixir_fastregen_fx",
+        dripfx = "ghostlyelixir_fastregen_dripfx",
+    },
+
+    -- 暗影药剂
+    ghostlyelixir_shadow =
+    {
+        -- 药剂效果的更新频率
+        TICK_RATE = TUNING.MYWD_ELIXIRS.GHOSTLYELIXIR_SHADOW_TICK_TIME,
+
+        -- 使用药剂，可修改为事件
+        ONAPPLY = function(inst, target)
+            if not target.components.planardamage then
+                target:AddComponent("planardamage")
+            end
+
+            if not target.components.planardefense then
+                target:AddComponent("planardefense")
+            end
+
+            target.components.planardamage:SetBaseDamage(TUNING.MYWD_ELIXIRS.GHOSTLYELIXIR_SHADOW_PLANAR_DAMAGE)
+            target.components.planardefense:SetBaseDefense(TUNING.MYWD_ELIXIRS.GHOSTLYELIXIR_SHADOW_PLANAR_DEFENSE)
+        end,
+
+        -- 移除药剂效果
+        ONDETACH = function(inst, target)
+            if target.components.planardamage then
+                target.components.planardamage:SetBaseDamage(0)
+                -- target.components.planardamage:SetBaseDamage(
+                --     target.components.planardamage:GetBaseDamage() - TUNING.MYWD.GHOSTLYELIXIR_MOON_PLANAR_DAMAGE)
+            end
+
+            if target.components.planardefense then
+                target.components.planardefense:SetBaseDefense(0)
+                -- target.components.planardamage:SetBaseDefense(
+                --     target.components.planardamage:GetBaseDefense() - TUNING.MYWD.GHOSTLYELIXIR_MOON_PLANAR_DEFENSE)
+            end
+        end,
+
+        -- TICK_FN = function(inst, target) target.components.health:DoDelta(TUNING.GHOSTLYELIXIR_SLOWREGEN_HEALING, true, inst.prefab) end,  -- 处理药剂的效果
+        DURATION = TUNING.MYWD_ELIXIRS.GHOSTLYELIXIR_SHADOW_DURATION,  -- 药剂持续时间
+        FLOATER = { "small", 0.15, 0.55 },  -- 水中浮动效果
+        fx = "ghostlyelixir_fastregen_fx",
+        dripfx = "ghostlyelixir_fastregen_dripfx",
+    }
+}
+----------------------------------------------------------------------------- Jowwar down
+
+-- 使用药剂，同时去除其他药剂效果
 local function DoApplyElixir(inst, giver, target)
     return target:AddDebuff("elixir_buff", inst.buff_prefab, nil, nil, function()
         local cur_buff = target:GetDebuff("elixir_buff")
@@ -100,45 +99,18 @@ local function DoApplyElixir(inst, giver, target)
     end)
 end
 
-local SPEED_HAUNT_MULTIPLIER_NAME = "haunted_speedpot"
-local function speed_potion_haunt_remove_buff(inst)
-    if inst._haunted_speedpot_task ~= nil then
-        inst._haunted_speedpot_task:Cancel()
-        inst._haunted_speedpot_task = nil
-    end
-    inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, SPEED_HAUNT_MULTIPLIER_NAME)
-    inst:RemoveEventCallback("ms_respawnedfromghost", speed_potion_haunt_remove_buff)
-end
-
-local function speed_potion_haunt(inst, haunter)
-    Launch(inst, haunter, TUNING.LAUNCH_SPEED_SMALL)
-    inst.components.hauntable.hauntvalue = TUNING.HAUNT_TINY
-    if haunter:HasTag("playerghost") then
-        haunter.components.locomotor:SetExternalSpeedMultiplier(haunter, SPEED_HAUNT_MULTIPLIER_NAME,
-            TUNING.GHOSTLYELIXIR_SPEED_LOCO_MULT)
-        if haunter._haunted_speedpot_task ~= nil then
-            haunter._haunted_speedpot_task:Cancel()
-            haunter._haunted_speedpot_task = nil
-        end
-        haunter:ListenForEvent("ms_respawnedfromghost", speed_potion_haunt_remove_buff)
-        haunter._haunted_speedpot_task = haunter:DoTaskInTime(TUNING.GHOSTLYELIXIR_SPEED_PLAYER_GHOST_DURATION,
-            speed_potion_haunt_remove_buff)
-    end
-
-    return true
-end
-
+-- 通用生成药剂实体
 local function potion_fn(anim, potion_tunings, buff_prefab)
     local inst = CreateEntity()
 
-    inst.entity:AddTransform()
-    inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
+    inst.entity:AddTransform()  -- 添加变换组件，位置、旋转、缩放
+    inst.entity:AddAnimState()  -- 添加药剂的动画状态管理
+    inst.entity:AddNetwork()  -- 添加网络组件，用于多人游戏中同步
 
-    MakeInventoryPhysics(inst)
+    MakeInventoryPhysics(inst)  -- 添加物理引擎
 
-    inst.AnimState:SetBank("ghostly_elixirs")
-    inst.AnimState:SetBuild("mywd_ghostly_elixirs")
+    inst.AnimState:SetBank("ghostly_elixirs")  -- 指定药剂的图像资源包
+    inst.AnimState:SetBuild("mywd_ghostly_elixirs")  -- 指定药剂的动画数据
     inst.AnimState:PlayAnimation(anim)
     inst.scrapbook_anim = anim
     inst.scrapbook_specialinfo = "GHOSTLYELIXER" .. string.upper(anim)
@@ -151,7 +123,7 @@ local function potion_fn(anim, potion_tunings, buff_prefab)
 
     inst:AddTag("ghostlyelixir")
 
-    inst.entity:SetPristine()
+    inst.entity:SetPristine()  -- 标记该实体只用于客户端和服务器同步
 
     if not TheWorld.ismastersim then
         return inst
@@ -160,9 +132,9 @@ local function potion_fn(anim, potion_tunings, buff_prefab)
     inst.buff_prefab = buff_prefab
     inst.potion_tunings = potion_tunings
 
-    inst:AddComponent("inspectable")
-    inst:AddComponent("inventoryitem")
-    inst:AddComponent("stackable")
+    inst:AddComponent("inspectable")  -- 检查组件
+    inst:AddComponent("inventoryitem")  -- 物品组件
+    inst:AddComponent("stackable")  -- 堆叠组件
 
     inst:AddComponent("ghostlyelixir")
     inst.components.ghostlyelixir.doapplyelixerfn = DoApplyElixir
@@ -188,6 +160,7 @@ local function potion_fn(anim, potion_tunings, buff_prefab)
     return inst
 end
 
+-- 定时触发的函数
 local function buff_OnTick(inst, target)
     if target.components.health ~= nil and
         not target.components.health:IsDead() then
@@ -197,12 +170,14 @@ local function buff_OnTick(inst, target)
     end
 end
 
+-- buff触发特效
 local function buff_DripFx(inst, target)
     if not target.inlimbo and not target.sg:HasStateTag("busy") then
         SpawnPrefab(inst.potion_tunings.dripfx).Transform:SetPosition(target.Transform:GetWorldPosition())
     end
 end
 
+-- buff持续特效
 local function buff_OnAttached(inst, target)
     inst.entity:SetParent(target.entity)
     inst.Transform:SetPosition(0, 0, 0) --in case of loading

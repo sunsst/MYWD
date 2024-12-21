@@ -1,0 +1,7 @@
+-- 用不到但先留着
+-- function GetRawObjectPropsArg(obj, arg_name)
+--     return rawget(obj, "_")[arg_name][2]
+-- end
+-- function ResetObjectPropsArg(obj, arg_name, newvalue)
+--     rawget(obj, "_")[arg_name][2] = newvalue
+-- end

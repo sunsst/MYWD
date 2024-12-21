@@ -349,28 +349,36 @@ local SKILLTREE_COMMAND_DEFS =
     }
 }
 
--- local function GetGhostCommandsFor(owner)
---     local commands = shallowcopy(BASECOMMANDS)
+function GhostChangeShadow(inst, doer)
 
---     local behaviour_command = (owner:HasTag("has_aggressive_follower") and SOOTHE_ACTION) or RILE_UP_ACTION
---     table.insert(commands, behaviour_command)
+end
 
---     if owner.components.skilltreeupdater then
---         for skill, skill_command in pairs(SKILLTREE_COMMAND_DEFS) do
---             if owner.components.skilltreeupdater:IsActivated(skill) then
---                 if skill_command.label then
---                     table.insert(commands, skill_command)
---                 else
---                     for _, skill_command2 in pairs(skill_command) do
---                         table.insert(commands, skill_command2)
---                     end
---                 end
---             end
---         end
---     end
+local SHADOW = {
+    label = STRINGS.GHOSTCOMMANDS.SHADOW,
+    onselect = function(inst)
+        local spellbook = inst.components.spellbook
+        spellbook:SetSpellName(STRINGS.GHOSTCOMMANDS.SHADOW)
 
---     return commands
--- end
+        if TheWorld.ismastersim then
+            inst.components.aoespell:SetSpellFn(nil)
+            spellbook:SetSpellFn(GhostChangeShadow)
+        end
+    end,
+    execute = function(inst)
+        if ThePlayer.replica.inventory then
+            ThePlayer.replica.inventory:CastSpellBookFromInv(inst)
+        end
+    end,
+    bank = "spell_icons_wendy",
+    build = "spell_icons_wendy",
+    anims =
+    {
+        idle = { anim = "rile" },
+        focus = { anim = "rile_focus", loop = true },
+        down = { anim = "rile_pressed" },
+    },
+    widget_scale = ICON_SCALE,
+}
 
 local function GetGhostCommandsFor(owner)
     local commands = shallowcopy(BASECOMMANDS)

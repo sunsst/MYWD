@@ -11,6 +11,9 @@ STRINGS.GHOSTCOMMANDS.ESCAPE = "Escape"
 STRINGS.GHOSTCOMMANDS.HAUNT_AT = "Haunt At"
 STRINGS.GHOSTCOMMANDS.SCARE = "Scare"
 STRINGS.GHOSTCOMMANDS.UNSUMMON = "Unsummon"
+STRINGS.GHOSTCOMMANDS.SHADOW = "暗影形态"
+
+
 
 
 --------------------------------------------------------------------------------------

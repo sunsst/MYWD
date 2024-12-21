@@ -13,7 +13,9 @@
         "AddStategraphState",
         "AddStategraphEvent",
         "env",
-        "AddAction"
+        "AddAction",
+        "AddClassPostConstruct",
+        "AddComponentPostInit"
     ],
     "Lua.runtime.version": "Lua 5.1"
 }

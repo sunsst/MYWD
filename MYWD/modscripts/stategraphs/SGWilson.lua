@@ -1,0 +1,10 @@
+-- 有更好的选择，但保留一下这部分代码
+-- local function stop_wendy_shadow_atk(sg)
+--     -- 拦截暗影状态下的温蒂攻击
+--     sg.actionhandlers[ACTIONS.ATTACK].condition = function(inst)
+--         c_announce(not (inst and inst.prefab == "wendy" and inst.components.mywd_wdbuf:IsShadowBuff()))
+--         return not (inst and inst.prefab == "wendy" and inst.components.mywd_wdbuf:IsShadowBuff())
+--     end
+-- end
+-- AddStategraphPostInit("wilson", stop_wendy_shadow_atk)
+-- AddStategraphPostInit("wilson_client", stop_wendy_shadow_atk)

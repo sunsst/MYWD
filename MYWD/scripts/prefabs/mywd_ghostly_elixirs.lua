@@ -2,70 +2,6 @@
 local NO_TAGS_NO_PLAYERS = { "INLIMBO", "notarget", "noattack", "wall", "player", "companion", "playerghost" }
 local COMBAT_TARGET_TAGS = { "_combat" }
 
-local onattacked_shield = function(inst)
-    local fx = SpawnPrefab("elixir_player_forcefield")
-    inst:AddChild(fx)
-    inst.SoundEmitter:PlaySound("dontstarve/characters/wendy/abigail/shield/on")
-
-    local debuff = inst:GetDebuff("elixir_buff")
-    if not debuff then
-        return
-    end
-
-    if debuff.potion_tunings.playerreatliate then
-        local hitrange = 5
-        local damage = 20
-
-        debuff.ignore = {}
-
-        local x, y, z = inst.Transform:GetWorldPosition()
-
-        for i, v in ipairs(TheSim:FindEntities(x, y, z, hitrange, COMBAT_TARGET_TAGS, NO_TAGS_NO_PLAYERS)) do
-            if not debuff.ignore[v] and
-                v:IsValid() and
-                v.entity:IsVisible() and
-                v.components.combat ~= nil then
-                local range = hitrange + v:GetPhysicsRadius(0)
-                if v:GetDistanceSqToPoint(x, y, z) < range * range then
-                    if inst.owner ~= nil and not inst.owner:IsValid() then
-                        inst.owner = nil
-                    end
-                    if inst.owner ~= nil then
-                        if inst.owner.components.combat ~= nil and
-                            inst.owner.components.combat:CanTarget(v) and
-                            not inst.owner.components.combat:IsAlly(v)
-                        then
-                            debuff.ignore[v] = true
-                            local retaliation = SpawnPrefab("abigail_retaliation")
-                            retaliation:SetRetaliationTarget(v)
-                            --V2C: wisecracks make more sense for being pricked by picking
-                            --v:PushEvent("thorns")
-                        end
-                    elseif v.components.combat:CanBeAttacked() then
-                        -- NOTES(JBK): inst.owner is nil here so this is for non worn things like the bramble trap.
-                        local isally = false
-                        if not inst.canhitplayers then
-                            --non-pvp, so don't hit any player followers (unless they are targeting a player!)
-                            local leader = v.components.follower ~= nil and v.components.follower:GetLeader() or nil
-                            isally = leader ~= nil and leader:HasTag("player") and
-                                not (v.components.combat ~= nil and
-                                    v.components.combat.target ~= nil and
-                                    v.components.combat.target:HasTag("player"))
-                        end
-                        if not isally then
-                            debuff.ignore[v] = true
-                            v.components.combat:GetAttacked(inst, damage, nil, nil, inst.spdmg)
-                            local retaliation = SpawnPrefab("abigail_retaliation")
-                            retaliation:SetRetaliationTarget(v)
-                            --v:PushEvent("thorns")
-                        end
-                    end
-                end
-            end
-        end
-    end
-    debuff.components.debuff:Stop()
-end
 
 local potion_tunings =
 {
@@ -73,28 +9,21 @@ local potion_tunings =
     ghostlyelixir_mywd_shadow =
     {
         ONAPPLY = function(inst, target)
-            if not target.components.planardamage then
-                target:AddComponent("planardamage")
+            if target and target:IsValid() then
+                target.components.planardamage:SetBaseDamage(target.components.planardamage:GetBaseDamage() +
+                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DAMAGE)
+                target.components.planardefense:SetBaseDefense(target.components.planardefense:GetBaseDefense() +
+                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DEFENSE)
+                target.components.mywd_abbuf:UpdateWendyAuraState()
             end
-
-            if not target.components.planardefense then
-                target:AddComponent("planardefense")
-            end
-
-            target.components.planardamage:SetBaseDamage(TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DAMAGE)
-            target.components.planardefense:SetBaseDefense(TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DEFENSE)
         end,
         ONDETACH = function(inst, target)
-            if target.components.planardamage then
-                -- target.components.planardamage:SetBaseDamage(0)
-                target.components.planardamage:SetBaseDamage(
-                    target.components.planardamage:GetBaseDamage() - TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DAMAGE)
-            end
-
-            if target.components.planardefense then
-                -- target.components.planardefense:SetBaseDefense(0)
-                target.components.planardefense:SetBaseDefense(
-                    target.components.planardefense:GetBaseDefense() - TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DEFENSE)
+            if target and target:IsValid() then
+                target.components.planardamage:SetBaseDamage(target.components.planardamage:GetBaseDamage() -
+                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DAMAGE)
+                target.components.planardefense:SetBaseDefense(target.components.planardefense:GetBaseDefense() -
+                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DEFENSE)
+                target.components.mywd_abbuf:UpdateWendyAuraState()
             end
         end,
         DURATION = TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DURATION,
@@ -106,28 +35,19 @@ local potion_tunings =
     {
 
         ONAPPLY = function(inst, target)
-            if not target.components.planardamage then
-                target:AddComponent("planardamage")
+            if target and target:IsValid() then
+                target.components.planardamage:SetBaseDamage(target.components.planardamage:GetBaseDamage() +
+                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DAMAGE)
+                target.components.planardefense:SetBaseDefense(target.components.planardefense:GetBaseDefense() +
+                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DEFENSE)
             end
-
-            if not target.components.planardefense then
-                target:AddComponent("planardefense")
-            end
-
-            target.components.planardamage:SetBaseDamage(TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DAMAGE)
-            target.components.planardefense:SetBaseDefense(TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DEFENSE)
         end,
         ONDETACH = function(inst, target)
-            if target.components.planardamage then
-                -- target.components.planardamage:SetBaseDamage(0)
-                target.components.planardamage:SetBaseDamage(
-                    target.components.planardamage:GetBaseDamage() - TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DAMAGE)
-            end
-
-            if target.components.planardefense then
-                -- target.components.planardefense:SetBaseDefense(0)
-                target.components.planardefense:SetBaseDefense(
-                    target.components.planardefense:GetBaseDefense() - TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DEFENSE)
+            if target and target:IsValid() then
+                target.components.planardamage:SetBaseDamage(target.components.planardamage:GetBaseDamage() -
+                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DAMAGE)
+                target.components.planardefense:SetBaseDefense(target.components.planardefense:GetBaseDefense() -
+                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DEFENSE)
             end
         end,
         DURATION = TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DURATION,
@@ -198,7 +118,6 @@ local function potion_fn(anim, potion_tunings, buff_prefab)
     -- MYWD:设置自己的动画
     inst.AnimState:SetBank("mywd_ghostly_elixirs")
     inst.AnimState:SetBuild("mywd_ghostly_elixirs")
-    print("MYWD!!!!: " .. anim)
     inst.AnimState:PlayAnimation(anim)
     inst.scrapbook_anim = anim
     inst.scrapbook_specialinfo = "GHOSTLYELIXER" .. string.upper(anim)

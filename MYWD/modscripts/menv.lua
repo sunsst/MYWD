@@ -36,7 +36,10 @@ local IMPORT_GLOBAL = {
     TheNet = true,
     FRAMES = true,
     TimeEvent = true,
-    State = true
+    State = true,
+    generic_error = true,
+    getmetatable = true,
+    rawget = true
 }
 
 -- 不要直接设置 GLOBAL 会报错

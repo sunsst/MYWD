@@ -76,4 +76,4 @@ local function enable()
         end
     end)
 end
-enable()
+-- enable()

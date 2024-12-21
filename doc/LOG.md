@@ -388,3 +388,16 @@ ACTIONS.APPLYELIXIR
 ACTIONS.CASTSPELL
 ACTIONS.CASTAOE
 ```
+
+## 2024年12月21日
+
+## 拦截玩家攻击
+有两种选择，一是拦截状态机中攻击处理，二是拦截运动组件的一个函数，他们分别是：
+``` lua
+sg.actionhandlers[ACTIONS.ATTACK]
+inst.components.locomotor.PushAction
+```
+
+## 拦截伤害
+`components.combat` 这个战斗组件中 `components.combat.GetAttacked()` 其实是造成伤害的函数，拦截它即可。
+但官方其实留了一个钩子，`components.combat.redirectdamagefn(self.inst, attacker, damage, weapon, stimuli, spdamage)`

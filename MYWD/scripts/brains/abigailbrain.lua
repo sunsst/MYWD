@@ -182,9 +182,9 @@ function AbigailBrain:OnStart()
 
     --
     local root = PriorityNode({
-        ActionNode(function()
-            c_announce("抢占")
-        end),
+        -- ActionNode(function()
+        --     c_announce("抢占")
+        -- end),
         -- ConditionNode(function()
         --     c_announce("判断")
         --     return false

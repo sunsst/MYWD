@@ -11,7 +11,8 @@ local atlas = {
 
 -- 动画
 local anims = {
-    "spell_icons_wendy", -- 技能书图标
+    "spell_icons_wendy",   -- 技能书图标
+    "mywd_status_abigail", -- 状态栏图标
 }
 
 --------------------------------------------------------------------------------------------------------
@@ -44,6 +45,8 @@ local languages = {
 local modscripts = {
     -- 设置全局变量的文件，别动它的位置
     "menv",
+    -- 一些封装起来的函数
+    "utils",
 
     -- 基本的全局变量设置
     "tuning",
@@ -60,6 +63,12 @@ local modscripts = {
     "from_test/actions",
     "from_test/SGwilson",
     "from_test/vars",
+
+    -- 自己修改的代码
+    "prefabs/wendy",
+    "prefabs/abigail",
+    "stategraphs/SGWilson",
+    "widgets/pethealthbadge", -- 修改状态栏的药剂图标
 }
 
 --------------------------------------------------------------------------------------------------------

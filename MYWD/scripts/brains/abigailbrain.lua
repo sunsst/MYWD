@@ -135,8 +135,10 @@ function AbigailBrain:OnStart()
     local defensive_mode = WhileNode(function() return self.inst.is_defensive end, "DefensiveMove",
         PriorityNode({
             WhileNode(
-                function() return self.inst:HasTag("gestalt") and self.inst.components.combat.target and
-                    (self.inst.components.combat:InCooldown() or self.inst:HasTag("gestalt_hide")) end, "gestalt avoid",
+                function()
+                    return self.inst:HasTag("gestalt") and self.inst.components.combat.target and
+                        (self.inst.components.combat:InCooldown() or self.inst:HasTag("gestalt_hide"))
+                end, "gestalt avoid",
                 RunAway(self.inst, function() return self.inst.components.combat.target end, 7, 9)),
 
             WhileNode(function() return DefensiveCanFight(self.inst) end, "CanFight",
@@ -157,8 +159,10 @@ function AbigailBrain:OnStart()
     --
     local aggressive_mode = PriorityNode({
         WhileNode(
-            function() return self.inst:HasTag("gestalt") and self.inst.components.combat.target and
-                (self.inst.components.combat:InCooldown() or self.inst:HasTag("gestalt_hide")) end, "gestalt avoid",
+            function()
+                return self.inst:HasTag("gestalt") and self.inst.components.combat.target and
+                    (self.inst.components.combat:InCooldown() or self.inst:HasTag("gestalt_hide"))
+            end, "gestalt avoid",
             RunAway(self.inst, function() return self.inst.components.combat.target end, 7, 9)),
 
         WhileNode(function() return AggressiveCanFight(self.inst) end, "CanFight",
@@ -178,6 +182,16 @@ function AbigailBrain:OnStart()
 
     --
     local root = PriorityNode({
+        ActionNode(function()
+            c_announce("抢占")
+        end),
+        -- ConditionNode(function()
+        --     c_announce("判断")
+        --     return false
+        -- end),
+        -- ActionNode(function()
+        --     c_announce("抢占失败")
+        -- end),
         WhileNode(
             function()
                 return not self.inst.sg:HasStateTag("swoop")

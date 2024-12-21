@@ -11,8 +11,7 @@ local atlas = {
 
 -- 动画
 local anims = {
-    "mywd_ghostly_elixirs", -- 灵体草药的放置动画
-    "spell_icons_wendy",    -- 技能书图标
+    "spell_icons_wendy", -- 技能书图标
 }
 
 --------------------------------------------------------------------------------------------------------
@@ -20,6 +19,12 @@ local anims = {
 -- 预制件
 local prefabs = {
     "mywd_ghostly_elixirs", -- 灵体草药
+
+
+    -- 以下都是来自测试服的代码
+    -- "ghostly_elixirs", -- 重定向图集位置
+
+    -- 以下是完全未做改动
     "wendy",
     "mywd_reticuleaoe",
     "abigail",
@@ -54,6 +59,7 @@ local modscripts = {
     -- 这是从测试服复制过来的代码
     "from_test/actions",
     "from_test/SGwilson",
+    "from_test/vars",
 }
 
 --------------------------------------------------------------------------------------------------------

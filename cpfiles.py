@@ -10,11 +10,16 @@ atlas_dir = "D:/备份/测试服图片"
 
 os.makedirs(os.path.join(cwd,"MYWD/anim"),exist_ok=True)
 
+renames:dict[str, str] = {
+    "images/inventoryimages2.xml":"images/inventoryimages2_mywd.xml",
+    "images/inventoryimages2.tex":"images/inventoryimages2_mywd.tex"
+}
 
-anims_sesarch_files = [
+anims_sesarch_files:list[str] = [
     "wendy",
     "abigail",
     "abigail_flower",
+    "ghostly_elixirs"
 ]    
       
 anims:list[str] = [
@@ -22,6 +27,7 @@ anims:list[str] = [
 ]
 
 atlas_files:list[str] = [
+    "images/inventoryimages2.xml"
 ]
 
 lua_files:list[str] = [
@@ -72,3 +78,11 @@ for atlas in atlas_files:
         with open(os.path.join(cwd,"MYWD",atlasa), 'wb') as wf:
             wf.write(f.read())
         
+        
+# 重命名
+for src,dst in renames.items():
+    try:
+        os.rename(os.path.join(cwd,"MYWD",src),os.path.join(cwd,"MYWD",dst))
+    except:
+        pass
+    

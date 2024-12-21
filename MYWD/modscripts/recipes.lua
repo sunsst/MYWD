@@ -16,9 +16,9 @@ end
 
 
 -- 示例：添加月亮药剂的配方
-AddWendyRecipe("ghostlyelixir_moon", {
-    Ingredient("moon_tree_blossom", 1),
-    Ingredient("moonbutterflywings", 1),
-    Ingredient("ghostflower", 1),
-    Ingredient("purebrilliance", 1),
-}, "mywd_wdga_1", "elixirbrewer")
+-- AddWendyRecipe("ghostlyelixir_moon", {
+--     Ingredient("moon_tree_blossom", 1),
+--     Ingredient("moonbutterflywings", 1),
+--     Ingredient("ghostflower", 1),
+--     Ingredient("purebrilliance", 1),
+-- }, "mywd_wdga_1", "elixirbrewer")

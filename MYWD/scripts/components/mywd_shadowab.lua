@@ -21,7 +21,9 @@ end
 
 function ShadowAbigail:_update_wendy_aoe()
     local wendy = self.inst._playerlink
-    wendy.components.aura:Enable(self:IsWendyAOE())
+    if wendy then
+        wendy.components.aura:Enable(self:IsWendyAOE())
+    end
 end
 
 function ShadowAbigail:_update_skill()
@@ -30,7 +32,8 @@ function ShadowAbigail:_update_skill()
     local items = wendy.components.inventory:FindItems(function(item)
         return item.prefab == "abigail_flower"
     end)
-    for _, item in ipairs(items) do
+    c_announce("更新技能书")
+    for i, item in ipairs(items) do
         item:PushEvent("spellupdateneeded", wendy)
     end
 end
@@ -70,13 +73,24 @@ end
 function ShadowAbigail:ToAppear()
     if self._status == ACTIVE and not self.inst:IsInLimbo() then
         self._status = APPEAR
+
         self.inst:BecomeAggressive()
+        c_announce("暗影阿比盖尔生成")
     end
 end
 
 -- 判定阿比是否允许假死，独立出来方便写逻辑
 function ShadowAbigail:ToFeignDeadOK(currenthealth)
     return self._status == APPEAR and currenthealth <= 0
+end
+
+-- 更新假死状态下的阿比盖尔血量，独立出来方便写逻辑
+function ShadowAbigail:UpdateFeigndeathHealth()
+    -- 假死期间阻止血量调整
+    if self.inst.components.health.currenthealth ~= 0 then
+        self.inst.components.health.currenthealth = 0
+        self.inst:RemoveTag("isdead") -- 不填上这个标签阿比盖尔才能挨打
+    end
 end
 
 -- 阿比盖尔假死 √
@@ -87,14 +101,9 @@ function ShadowAbigail:ToFeignDeath()
     end
 end
 
--- 判定阿比是否允许回到正常，独立出来方便写逻辑
-function ShadowAbigail:ToNormalOK()
-    return self._status > NORMAL
-end
-
--- 回到正常 (药效过期)√ (死亡召回)√
+-- 回到正常 (药效过期)√ (假死召回)√
 function ShadowAbigail:ToNormal()
-    if self:ToNormalOK() then
+    if self._status > NORMAL then
         local refresh_health = self._status == FEIGNDEATH
         self._status = NORMAL
         if refresh_health then self.inst.components.health.currenthealth = 0 end
@@ -121,7 +130,7 @@ end
 
 -- 判定温蒂是否能增伤 √
 function ShadowAbigail:IsWendyDamageUP()
-    return self._status == ACTIVE
+    return self._status == ACTIVE and self.inst:IsInLimbo()
 end
 
 -- 判定阿比是否禁止息怒 (温蒂血亲组件)√ (阿比盖尔自身)√
@@ -129,7 +138,7 @@ function ShadowAbigail:IsCantDefensive()
     return self._status >= APPEAR
 end
 
--- 判定阿比是否禁止移动 √
+-- 判定阿比是否禁止移动 (行为树)√ (状态机)√
 function ShadowAbigail:IsCantMove()
     return self._status >= APPEAR
 end
@@ -149,7 +158,7 @@ function ShadowAbigail:IsStopRegen()
     return self._status == FEIGNDEATH
 end
 
--- 判定阿比是否假死 (不被判断为死亡)√ (不会死亡)√
+-- 判定阿比是否假死 (不被判断为死亡)√ (不会死亡)√ (假死召回)√
 function ShadowAbigail:IsFeignDead()
     return self._status == FEIGNDEATH
 end
@@ -158,3 +167,12 @@ end
 function ShadowAbigail:IsCanRedirectDamage()
     return self._status == FEIGNDEATH
 end
+
+function ShadowAbigail:GetDebugString()
+    local state_str = ({ "NORMAL", "GETBUFF", "ACTIVE", "APPEAR", "FEIGNDEATH" })[self._status + 1]
+    local s11 = self:ToFeignDeadOK(self.inst.components.health.currenthealth) and "TO FEIGNDEATH OK!" or ""
+    local s12 = self:ToFeignDeadOK(self.inst.components.health.currenthealth) and "TO NORMAL OK!" or ""
+    return state_str .. ", " .. s11 .. s12
+end
+
+return ShadowAbigail

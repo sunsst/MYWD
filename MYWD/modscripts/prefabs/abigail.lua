@@ -1,67 +1,23 @@
-local function post_fn1(inst)
-    -- 给阿比盖尔添加位面伤害组件，但正式服她也已经有了
-    -- local planardamage = inst:AddComponent("planardamage")
-    -- planardamage:SetBaseDamage(TUNING.MYWD.ABIGAIL_BASE_PLANARDAMAGE)
-    -- local planardefense = inst:AddComponent("planardefense")
-    -- planardefense:SetBaseDefense(TUNING.MYWD.ABIGAIL_BASE_PLANARDAMAGE)
-
-    -- 重定向暗影buff期间的伤害到温蒂
-    combat.redirectdamagefn = function(inst)
-        c_announce("尝试")
-        if abbuf:IsShadowUP() then
-        end
-        if TheInput:IsKeyDown(KEY_INSERT) then
-        end
-        c_announce("拦截成功")
-        return abbuf:GetWendy()
-    end
-
-
-    -- 重新定义阿比盖尔死亡
-    health.IsDead = function(self)
-        -- c_announce((abbuf:IsShadowUP() or health.currenthealth <= 0) and "死了" or "没死")
-        return false
-        -- return abbuf:IsShadowUP() or health.currenthealth <= 0
-    end
-
-    local old_fn = health.SetVal
-    health.SetVal = function(self, val, cause, afflicter)
-        local max_health = self:GetMaxWithPenalty()
-        local min_health = math.min(self.minhealth or 0, max_health)
-
-        if val > max_health then
-            val = max_health
-        end
-
-        if val <= min_health then
-            self.currenthealth = min_health
-            self.inst:RemoveTag("isdead") -- 不填上这个标签阿比盖尔才能挨打
-            self.inst:PushEvent("minhealth", { cause = cause, afflicter = afflicter })
-        else
-            self.currenthealth = val
-        end
-    end
-
-    -- 看看是谁加的标签
-    -- local o = inst.AddTag
-    -- inst.AddTag = function(inst, tag)
-    --     if tag == "isdead" then
-    --         print(generic_error("阿比盖尔被标记为死亡"))
-    --     end
-    --     o(inst, tag)
-    -- end
-
-    inst.components.health:StopRegen()
-end
-
-
 local function post_fn(inst)
-    local shadowab            = inst:AddComponent("mywd_shadowab")
+    local shadowab = inst:AddComponent("mywd_shadowab")
+
+    -- 连接玩家优化
+    local old_linktoplayer = inst.LinkToPlayer
+    local function new_linktoplayer(inst, player)
+        old_linktoplayer(inst, player)
+        -- 重新开启玩家的范围伤害
+        if shadowab:IsWendyAOE() then
+            player.components.aura:Enable(true)
+        end
+    end
+    inst.LinkToPlayer = new_linktoplayer
 
     -- 禁止阿比盖尔息怒
     local old_becomeDefensive = inst.BecomeDefensive
     local function new_becomeDefensive(inst)
+        c_announce("安慰阿比")
         if not shadowab:IsCantDefensive() then
+            c_announce("成功安慰阿比")
             old_becomeDefensive(inst)
         end
     end
@@ -95,13 +51,13 @@ local function post_fn(inst)
     local old_setvalfn = inst.components.health.SetVal
     local function new_setvalfn(self, val, cause, afflicter)
         if shadowab:IsFeignDead() then
-            -- 假死期间阻止血量调整
-            if self.currenthealth ~= 0 then
-                self.currenthealth = 0
-                self.inst:RemoveTag("isdead") -- 不填上这个标签阿比盖尔才能挨打
-            end
+            -- 阿比盖尔已经进入假死状态
+            c_announce("假死状态受伤拦截")
+            shadowab:UpdateFeigndeathHealth()
         elseif shadowab:ToFeignDeadOK(val) then
-            -- 阿比盖尔进入假死状态
+            -- 阿比盖尔尝试进入假死状态
+            c_announce("可以进入假死状态")
+            shadowab:UpdateFeigndeathHealth()
             shadowab:ToFeignDeath()
         else
             old_setvalfn(self, val, cause, afflicter)

@@ -44,4 +44,16 @@ function WendyBuff:IsCantInLimboShadow()
     return ab and ab.components.mywd_shadowab:IsCantInLimbo()
 end
 
+-- 判定阿比是否假死 √
+function WendyBuff:IsFeignDeadShadow()
+    local ab = self:GetAbigail()
+    return ab and ab.components.mywd_shadowab:IsFeignDead()
+end
+
+-- 回到正常
+function WendyBuff:ToNormalShadow()
+    local ab = self:GetAbigail()
+    return ab and ab.components.mywd_shadowab:ToNormal()
+end
+
 return WendyBuff

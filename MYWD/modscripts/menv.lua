@@ -42,7 +42,9 @@ local IMPORT_GLOBAL = {
     rawget = true,
 
     ConditionNode = true,
-    PriorityNode = true
+    PriorityNode = true,
+    ActionNode = true,
+    WhileNode = true
 }
 
 -- 不要直接设置 GLOBAL 会报错

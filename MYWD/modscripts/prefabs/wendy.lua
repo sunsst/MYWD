@@ -23,7 +23,6 @@ local function post_fn(inst)
     local wdbuf = inst:AddComponent("mywd_wdbuf")
 
 
-
     -- 修改温蒂的运动组件，AOE期间禁止攻击
     local old_pushactionfn = inst.components.locomotor.PushAction
     local function new_pushactionfn(self, bufferedaction, run, try_instant)
@@ -45,23 +44,29 @@ local function post_fn(inst)
     -- 禁止切换阿比状态
     local old_changebehaviourfn = inst.components.ghostlybond.ChangeBehaviour
     local new_changebehaviourfn = function(self)
+        c_announce("状态切换温蒂")
         if wdbuf:IsCantDefensiveShadow() then
+            c_announce("状态切换被拦截")
             return false
         else
             return old_changebehaviourfn(self)
         end
     end
-    inst.components.ghostlybond.changebehaviourfn = new_changebehaviourfn
+    inst.components.ghostlybond.ChangeBehaviour = new_changebehaviourfn
 
     -- 假死期间禁止召回
     local old_recalfn = inst.components.ghostlybond.Recall
     local new_recallfn = function(self, was_killed)
+        c_announce("温蒂尝试收回")
         if wdbuf:IsCantInLimboShadow() then
+            c_announce("收回被拦截")
             return false
-        elseif wdbuf:ToNormalOK() then
-            wdbuf:ToNormal()
-            return false
+        elseif wdbuf:IsFeignDeadShadow() then
+            c_announce("假死收回")
+            wdbuf:ToNormalShadow()
+            return old_recalfn(self, was_killed)
         else
+            c_announce("正常收回")
             return old_recalfn(self, was_killed)
         end
     end

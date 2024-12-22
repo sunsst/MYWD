@@ -348,9 +348,13 @@ local SKILLTREE_COMMAND_DEFS =
         }
     }
 }
+---------------------------------------------------------------------------------------------------------------------
 
+-- MYWD:切换至暗影状态
 function GhostChangeShadow(inst, doer)
-
+    if doer then
+        doer.components.mywd_wdbuf:ToActiveShadow()
+    end
 end
 
 local SHADOW = {
@@ -383,9 +387,16 @@ local SHADOW = {
 local function GetGhostCommandsFor(owner)
     local commands = shallowcopy(BASECOMMANDS)
 
+
+
     -- 切换愤怒与安静状态的图标
     local behaviour_command = (owner:HasTag("has_aggressive_follower") and SOOTHE_ACTION) or RILE_UP_ACTION
     table.insert(commands, behaviour_command)
+
+    -- MYWD: 添加两个我们自己的技能
+    if owner and owner.components.mywd_wdbuf:IsWendyGetSkillShadow() then
+        table.insert(commands, SHADOW)
+    end
 
     -- MYWD: 先强行启用技能书所有技能
     for skill, skill_command in pairs(SKILLTREE_COMMAND_DEFS) do

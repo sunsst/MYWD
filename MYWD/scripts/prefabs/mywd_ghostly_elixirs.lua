@@ -10,20 +10,12 @@ local potion_tunings =
     {
         ONAPPLY = function(inst, target)
             if target and target:IsValid() then
-                target.components.planardamage:SetBaseDamage(target.components.planardamage:GetBaseDamage() +
-                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DAMAGE)
-                target.components.planardefense:SetBaseDefense(target.components.planardefense:GetBaseDefense() +
-                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DEFENSE)
-                target.components.mywd_abbuf:UpdateWendyAuraState()
+                target.components.mywd_shadowab:ToGetBuff()
             end
         end,
         ONDETACH = function(inst, target)
             if target and target:IsValid() then
-                target.components.planardamage:SetBaseDamage(target.components.planardamage:GetBaseDamage() -
-                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DAMAGE)
-                target.components.planardefense:SetBaseDefense(target.components.planardefense:GetBaseDefense() -
-                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DEFENSE)
-                target.components.mywd_abbuf:UpdateWendyAuraState()
+                target.components.mywd_shadowab:ToNormal()
             end
         end,
         DURATION = TUNING.MYWD.GHOSTLYELIXIR_MYWD_SHADOW_DURATION,

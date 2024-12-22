@@ -1,14 +1,3 @@
-local BUFF = {
-    UNKNOW = 0,
-    SHADOW = 1,
-    MOON = 2
-    -- NORMAL = 3,
-}
-
-local MOON_BUFF_NAME = "ghostlyelixir_mywd_moon_buff"
-local SHADOW_BUFF_NAME = "ghostlyelixir_mywd_shadow_buff"
-local BUFF_TYPE = "elixir_buff"
-
 local WendyBuff = Class(function(self, inst)
     self.inst = inst
 end)
@@ -19,37 +8,40 @@ function WendyBuff:GetAbigail()
     if ghost and ghost:IsValid() then return ghost end
 end
 
--- 判断温蒂是否收回
-function WendyBuff:IsLimbolAbigail()
+-- 判定温蒂是否能启用AOE攻击模式 √
+function WendyBuff:IsWendyAOEShadow()
     local ab = self:GetAbigail()
-    return ab and ab:IsInLimbo()
+    return ab and ab.components.mywd_shadowab:IsWendyAOE()
 end
 
--- 获取当前的特殊buff
-function WendyBuff:getBuff()
+-- 判定温蒂是否能释放暗影阿比技能 √
+function WendyBuff:IsWendyGetSkillShadow()
     local ab = self:GetAbigail()
-    if not ab then return BUFF.UNKNOW end
-
-    local bufinst = ab.components.debuffable:GetDebuff(BUFF_TYPE)
-    if not bufinst then
-        return BUFF.UNKNOW
-    elseif bufinst.prefab == SHADOW_BUFF_NAME then
-        return BUFF.SHADOW
-    elseif bufinst.prefab == MOON_BUFF_NAME then
-        return BUFF.MOON
-    end
-
-    return BUFF.UNKNOW
+    return ab and ab.components.mywd_shadowab:IsWendyGetSkill()
 end
 
--- 判断当前是否是暗影buff
-function WendyBuff:IsShadowBuff()
-    return self:getBuff() == BUFF.SHADOW
+-- 判定温蒂是否能得到暗影buff增伤 √
+function WendyBuff:IsWendyDamageUPShadow()
+    local ab = self:GetAbigail()
+    return ab and ab.components.mywd_shadowab:IsWendyDamageUP()
 end
 
--- 判断当前是否是暗影buff，以及是否达到了二次增强的要求
-function WendyBuff:IsShadowUP()
-    return self:IsLimbolAbigail() and self:IsShadowBuff()
+-- 判定阿比是否禁止息怒 √
+function WendyBuff:IsCantDefensiveShadow()
+    local ab = self:GetAbigail()
+    return ab and ab.components.mywd_shadowab:IsCantDefensive()
+end
+
+-- 激活暗影阿比盖尔 √
+function WendyBuff:ToActiveShadow()
+    local ab = self:GetAbigail()
+    return ab and ab.components.mywd_shadowab:ToActive()
+end
+
+-- 判定阿比是否禁止召回 √
+function WendyBuff:IsCantInLimboShadow()
+    local ab = self:GetAbigail()
+    return ab and ab.components.mywd_shadowab:IsCantInLimbo()
 end
 
 return WendyBuff

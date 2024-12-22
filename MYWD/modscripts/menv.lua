@@ -39,7 +39,10 @@ local IMPORT_GLOBAL = {
     State = true,
     generic_error = true,
     getmetatable = true,
-    rawget = true
+    rawget = true,
+
+    ConditionNode = true,
+    PriorityNode = true
 }
 
 -- 不要直接设置 GLOBAL 会报错

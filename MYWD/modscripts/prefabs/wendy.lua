@@ -11,9 +11,6 @@ local function auratest(inst, target, can_initiate)
 end
 
 
-
-
-
 local function post_fn(inst)
     -- 鬼魂的范围攻击组件
     local aura = inst:AddComponent("aura")
@@ -22,25 +19,65 @@ local function post_fn(inst)
     -- aura.ignoreallies = true
     aura.auratestfn = auratest
 
+    -- 辅组条件判断组件
     local wdbuf = inst:AddComponent("mywd_wdbuf")
 
-    -- 暗影增伤，如果有旧增伤会保留
-    local old_customdamagemultfn = inst.components.combat.customdamagemultfn
-    inst.components.combat.customdamagemultfn = function(inst, target)
-        return (wdbuf:IsShadowUP() and TUNING.MYWD.WENDY_SHADOW_DAMAGE_MOD or 1) *
-            old_customdamagemultfn(inst, target)
-    end
 
 
-    -- 修改温蒂的运动组件拦截暗影buff期间的攻击动作
+    -- 修改温蒂的运动组件，AOE期间禁止攻击
     local old_pushactionfn = inst.components.locomotor.PushAction
-    inst.components.locomotor.PushAction = function(self, bufferedaction, run, try_instant)
-        if bufferedaction.action == ACTIONS.ATTACK and wdbuf:IsShadowBuff() then
-            return
-        else
+    local function new_pushactionfn(self, bufferedaction, run, try_instant)
+        if not (bufferedaction.action == ACTIONS.ATTACK and wdbuf:IsWendyAOEShadow()) then
             old_pushactionfn(self, bufferedaction, run, try_instant)
         end
     end
+    inst.components.locomotor.PushAction = new_pushactionfn
+
+
+    -- 修改温蒂自定义伤害函数，添加暗影buff增伤，保留原有增伤
+    local old_customdamagemultfn = inst.components.combat.customdamagemultfn
+    local new_customdamagemultfn = function(inst, target)
+        return (wdbuf:IsWendyDamageUPShadow() and TUNING.MYWD.WENDY_SHADOW_DAMAGE_MOD or 1) *
+            old_customdamagemultfn(inst, target)
+    end
+    inst.components.combat.customdamagemultfn = new_customdamagemultfn
+
+    -- 禁止切换阿比状态
+    local old_changebehaviourfn = inst.components.ghostlybond.ChangeBehaviour
+    local new_changebehaviourfn = function(self)
+        if wdbuf:IsCantDefensiveShadow() then
+            return false
+        else
+            return old_changebehaviourfn(self)
+        end
+    end
+    inst.components.ghostlybond.changebehaviourfn = new_changebehaviourfn
+
+    -- 假死期间禁止召回
+    local old_recalfn = inst.components.ghostlybond.Recall
+    local new_recallfn = function(self, was_killed)
+        if wdbuf:IsCantInLimboShadow() then
+            return false
+        elseif wdbuf:ToNormalOK() then
+            wdbuf:ToNormal()
+            return false
+        else
+            return old_recalfn(self, was_killed)
+        end
+    end
+    inst.components.ghostlybond.Recall = new_recallfn
 end
 
 AddPrefabPostInit("wendy", post_fn)
+
+
+-- 有更好的选择，但保留一下这部分代码
+-- local function stop_wendy_shadow_atk(sg)
+--     -- 拦截暗影状态下的温蒂攻击
+--     sg.actionhandlers[ACTIONS.ATTACK].condition = function(inst)
+--         c_announce(not (inst and inst.prefab == "wendy" and inst.components.mywd_wdbuf:IsShadowBuff()))
+--         return not (inst and inst.prefab == "wendy" and inst.components.mywd_wdbuf:IsShadowBuff())
+--     end
+-- end
+-- AddStategraphPostInit("wilson", stop_wendy_shadow_atk)
+-- AddStategraphPostInit("wilson_client", stop_wendy_shadow_atk)

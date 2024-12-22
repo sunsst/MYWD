@@ -15,7 +15,9 @@
         "env",
         "AddAction",
         "AddClassPostConstruct",
-        "AddComponentPostInit"
+        "AddComponentPostInit",
+        "AddBrainPostInit"
     ],
-    "Lua.runtime.version": "Lua 5.1"
+    "Lua.runtime.version": "Lua 5.1",
+    "Lua.completion.autoRequire": false
 }

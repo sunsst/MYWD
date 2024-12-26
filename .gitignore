@@ -4,5 +4,6 @@
 /MYWD/images
 /utils/go.sum
 
+**/mydebug_*
 
 !/.vscode/settings.json

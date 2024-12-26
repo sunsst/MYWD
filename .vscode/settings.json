@@ -19,5 +19,6 @@
         "AddBrainPostInit"
     ],
     "Lua.runtime.version": "Lua 5.1",
-    "Lua.completion.autoRequire": false
+    "Lua.completion.autoRequire": false,
+    "python.analysis.autoImportCompletions": true
 }

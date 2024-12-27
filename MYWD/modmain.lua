@@ -67,8 +67,6 @@ local modscripts = {
     -- 自己修改的代码
     "prefabs/abigail",
     "prefabs/wendy",
-    "brains/abigailbrain",
-    "stategraphs/SGabigail",
     "widgets/pethealthbadge", -- 修改状态栏的药剂图标
 }
 

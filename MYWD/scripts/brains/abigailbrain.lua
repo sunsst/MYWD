@@ -182,16 +182,6 @@ function AbigailBrain:OnStart()
 
     --
     local root = PriorityNode({
-        -- ActionNode(function()
-        --     c_announce("抢占")
-        -- end),
-        -- ConditionNode(function()
-        --     c_announce("判断")
-        --     return false
-        -- end),
-        -- ActionNode(function()
-        --     c_announce("抢占失败")
-        -- end),
         WhileNode(
             function()
                 return not self.inst.sg:HasStateTag("swoop")

@@ -408,7 +408,6 @@ local function master_postinit(inst)
 
         inst:ListenForEvent("onsisturnstatechanged",
             function(world, data)
-                print("GOT HERE")
                 update_sisturn_state(inst, data.is_active, data.is_blossom)
             end, TheWorld)
         update_sisturn_state(inst)

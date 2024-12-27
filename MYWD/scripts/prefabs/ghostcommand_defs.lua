@@ -401,15 +401,9 @@ local function GetGhostCommandsFor(owner)
     -- MYWD: 先强行启用技能书所有技能
     for skill, skill_command in pairs(SKILLTREE_COMMAND_DEFS) do
         if skill_command.label then
-            -- skill_command.onselect = function()
-            --     c_announce("未移植的技能：" .. skill_command.label)
-            -- end
             table.insert(commands, skill_command)
         else
             for _, skill_command2 in pairs(skill_command) do
-                -- skill_command2.onselect = function()
-                --     c_announce("未移植的技能：" .. skill_command2.label)
-                -- end
                 table.insert(commands, skill_command2)
             end
         end

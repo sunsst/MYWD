@@ -11,7 +11,7 @@ local function auratest(inst, target, can_initiate)
 end
 
 
-local function post_fn(inst)
+local function prefab_post_fn(inst)
     -- 鬼魂的范围攻击组件
     local aura = inst:AddComponent("aura")
     aura.radius = TUNING.MYWD.WENDY_AURA_RADIUS
@@ -44,11 +44,11 @@ local function post_fn(inst)
     -- 禁止切换阿比状态
     local old_changebehaviourfn = inst.components.ghostlybond.ChangeBehaviour
     local new_changebehaviourfn = function(self)
-        c_announce("状态切换温蒂")
         if wdbuf:IsCantDefensiveShadow() then
-            c_announce("状态切换被拦截")
+            c_announce("拦截温蒂切换阿比状态") --mywd
             return false
         else
+            c_announce("正常温蒂切换阿比状态") --mywd
             return old_changebehaviourfn(self)
         end
     end
@@ -57,32 +57,24 @@ local function post_fn(inst)
     -- 假死期间禁止召回
     local old_recalfn = inst.components.ghostlybond.Recall
     local new_recallfn = function(self, was_killed)
-        c_announce("温蒂尝试收回")
         if wdbuf:IsCantInLimboShadow() then
-            c_announce("收回被拦截")
+            c_announce("拦截温蒂召唤阿比") --mywd
             return false
         elseif wdbuf:IsFeignDeadShadow() then
-            c_announce("假死收回")
+            c_announce("阿比假死状态回收") --mywd
             wdbuf:ToNormalShadow()
             return old_recalfn(self, was_killed)
         else
-            c_announce("正常收回")
+            c_announce("正常温蒂收回阿比") --mywd
             return old_recalfn(self, was_killed)
         end
     end
     inst.components.ghostlybond.Recall = new_recallfn
 end
 
-AddPrefabPostInit("wendy", post_fn)
 
 
--- 有更好的选择，但保留一下这部分代码
--- local function stop_wendy_shadow_atk(sg)
---     -- 拦截暗影状态下的温蒂攻击
---     sg.actionhandlers[ACTIONS.ATTACK].condition = function(inst)
---         c_announce(not (inst and inst.prefab == "wendy" and inst.components.mywd_wdbuf:IsShadowBuff()))
---         return not (inst and inst.prefab == "wendy" and inst.components.mywd_wdbuf:IsShadowBuff())
---     end
--- end
--- AddStategraphPostInit("wilson", stop_wendy_shadow_atk)
--- AddStategraphPostInit("wilson_client", stop_wendy_shadow_atk)
+local function modify()
+    AddPrefabPostInit("wendy", prefab_post_fn)
+end
+modify()

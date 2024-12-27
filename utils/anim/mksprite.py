@@ -1,6 +1,10 @@
+from ast import arg
+import decimal
 import math
+import os
 import stat
 from tkinter import FALSE
+from turtle import pos
 from xml.dom.minidom import Element
 import xml.etree.ElementTree as ET
 from typing import Callable
@@ -15,8 +19,6 @@ class TransformArgs:
         self.ty = ty
         self.isinv = isinv   
          
-    def get_angle(self):
-        return math.asin(self.rx/sy)
         
     @property
     def inv(self):
@@ -24,7 +26,22 @@ class TransformArgs:
         return TransformArgs(self.sy*v, self.ry*-1*v, self.rx*-1*v, self.sx*v, self.tx*-1, self.ty*-1, not self.isinv)
     
     def __str__(self):
-        return '{{{}, {}, {}, {}, {}, {}}}'.format(self.sx, self.ry, self.rx, self.sy, self.tx, self.ty, ', !' if self.isinv else '')
+        return '{{{}, {}, {}, {}, {}, {}}}'.format(self.sx, self.rx, self.ry, self.sy, self.tx, self.ty, ', !' if self.isinv else '')
+    
+        
+    @staticmethod
+    def rotation_rad(radians):
+        return TransformArgs(sx=math.cos(radians), sy=math.cos(radians), rx=-1*math.sin(radians), ry=math.sin(radians))
+    
+    @staticmethod
+    def rotation_deg(angle):
+        return TransformArgs.rotation_rad(math.radians(angle))
+    
+    def cp(self):
+        return TransformArgs(self.sx, self.ty, self.rx, self.sy, self.tx, self.ty, self.isinv)
+    
+        
+    
     
 class Vec2:
     def __init__(self, x:float, y:float):
@@ -62,6 +79,7 @@ class Vec2:
             self.add(args.tx, args.ty)
         return self
     
+    
     def do(self, f:Callable[[float],float]):
         self.x= f(self.x)
         self.y = f(self.y)
@@ -71,8 +89,29 @@ class Vec2:
         return '({}, {})'.format(self.x, self.y)
     
 
-
-
+def detransform(args:TransformArgs):
+    tx = args.tx
+    ty= args.ty
+    args.tx = 0
+    args.ty = 0
+    ps2,ps3 = Vec2(1, 0).to(args),Vec2(0, 1).to(args)
+    w=math.sqrt(ps2.x*ps2.x+ps2.y*ps2.y)
+    h=math.sqrt(ps3.x*ps3.x+ps3.y*ps3.y)
+    
+    # w 0
+    # 0 h
+    # sx rx
+    # ry sy
+    
+    args.sx/=w
+    args.rx/=h
+    args.ry/=w
+    args.sy/=h
+    
+    rad = math.atan2(ps2.y, ps2.x)
+    
+    return (w, h, rad, tx, ty)
+    
 
 
 def gid(elem):
@@ -98,10 +137,12 @@ class ScmlWriter:
     SCML_XML_STRING = '<?xml version="1.0" encoding="UTF-8"?><spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5"></spriter_data>'
     
     DEFAULT_FRAMERATE = 30
-    def __init__(self):
+    def __init__(self, scml_file_path):
         self.dom = ET.ElementTree(ET.fromstring(self.SCML_XML_STRING))
         self.root = self.dom.getroot()
         self.namespace = set()
+        self.scml_file_path = scml_file_path
+        self.scml_dir = os.path.dirname(self.scml_file_path)
     
         
     def add_bank(self, name):
@@ -182,7 +223,25 @@ class ScmlWriter:
         timeline_elem.append(key_elem)
         frame_elem.append(obj_ref_elem)
         self.namespace.add(k)
-        
+    
+    
+    def mk_file(self, folder, file):
+        dir_elem =  self.root.find('folder[@name="{}"]'.format(folder))
+        if dir_elem is None:
+            dir_elem = ET.Element('folder',{
+                'id': self.newid(self.root, 'folder'),
+                'name': folder
+            })
+            self.root.append(dir_elem)
+        file_elem = dir_elem.find('file[@name="{}"]'.format(file))
+        if file_elem is None:
+            file_elem = ET.Element('file', {
+                'id': self.newid(self.root, 'file'),
+                'name': file
+            })
+            dir_elem.append(file_elem)
+        return file_elem
+    
         
         
         
@@ -195,37 +254,16 @@ class AnimParser:
     def __init__(self, animxml_source, buildxml_source):
         self.scml = ScmlWriter()     
         self.animxml = ET.parse(animxml_source)
-        self.buildxml = ET.parse(buildxml_source)
+        
     
-        
-        
+    def parse(self):
+        # for anim in self.
+        pass
         
             
             
         
         
 
-p= r"T:/新建文件夹 (2)/a.scml"
 
-# sw= ScmlWriter()
-# sw.add_bank('asd')
-# sw.add_bank('123')
-# sw.add_anim('asd', '动画', 123)
-# sw.add_anim('asd', 'gg', 123)
-# sw.add_layer_and_frame('asd', 'gg', 't1', 6, 99,11,12,1,2,3,{'k':'fdffd'})
-# sw.add_layer_and_frame('asd', 'gg', 't1', 88, 99,11,12,1,2,3,{'k':'fdffd'})
-# ET.indent(sw.dom)
-# sw.dom.write(p)
 
-args= TransformArgs(sx=40,sy=20)
-
-arg2 = TransformArgs(34.641014, -20.000000, 10.000000, 17.320507)
-
-a=Vec2(33,33)
-a.to(args)
-a.to(arg2)
-a.to(arg2.inv)
-a.to(args.inv)
-print(a)
-    
-    

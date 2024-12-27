@@ -32,7 +32,7 @@ function ShadowAbigail:_update_skill()
     local items = wendy.components.inventory:FindItems(function(item)
         return item.prefab == "abigail_flower"
     end)
-    c_announce("更新技能书")
+    c_announce("更新技能书") --mywd
     for i, item in ipairs(items) do
         item:PushEvent("spellupdateneeded", wendy)
     end
@@ -45,6 +45,10 @@ function ShadowAbigail:_update_regen_state()
         end
     else
         if self.inst.components.health.regen == nil then
+            if self.inst.components.health.currenthealth == 0 then
+                --正常状态下没有血的阿比会被判断为死亡无法回血
+                self.inst.components.health:DoDelta(1)
+            end
             self.inst.components.health:StartRegen(1, 1)
         end
     end
@@ -75,7 +79,7 @@ function ShadowAbigail:ToAppear()
         self._status = APPEAR
 
         self.inst:BecomeAggressive()
-        c_announce("暗影阿比盖尔生成")
+        c_announce("暗影阿比盖尔生成") --mywd
     end
 end
 
@@ -170,9 +174,7 @@ end
 
 function ShadowAbigail:GetDebugString()
     local state_str = ({ "NORMAL", "GETBUFF", "ACTIVE", "APPEAR", "FEIGNDEATH" })[self._status + 1]
-    local s11 = self:ToFeignDeadOK(self.inst.components.health.currenthealth) and "TO FEIGNDEATH OK!" or ""
-    local s12 = self:ToFeignDeadOK(self.inst.components.health.currenthealth) and "TO NORMAL OK!" or ""
-    return state_str .. ", " .. s11 .. s12
+    return state_str
 end
 
 return ShadowAbigail

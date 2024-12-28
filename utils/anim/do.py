@@ -385,7 +385,7 @@ t=Tools(dsttool_dir="D:/@apps/@games/SteamLibrary/steamapps/common/Don't Starve 
     scml_name='test')
 
 t(build=True)
-t(merge_file="T:/新建文件夹/zzzz/wendy.scml")
+t(merge_file="T:/新建文件夹/待机动作/wendy.scml")
 
         
         

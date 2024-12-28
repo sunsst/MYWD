@@ -4,6 +4,8 @@ local ACTIVE = 2
 local APPEAR = 3
 local FEIGNDEATH = 4
 
+local ACTIVE_SKILL = "mywd_shadow_2"
+
 
 local ShadowAbigail = Class(function(self, inst)
     self.inst = inst
@@ -60,7 +62,7 @@ function ShadowAbigail:ToGetBuff()
         self._status = GETBUFF
         self:_update_planar()
         self:_update_wendy_aoe()
-        self:_update_skill()
+        -- self:_update_skill() --依据技能树不需要主动更新了
     end
 end
 
@@ -68,7 +70,7 @@ end
 function ShadowAbigail:ToActive()
     if self._status == GETBUFF then
         self._status = ACTIVE
-        self:_update_skill()
+        -- self:_update_skill() --依据技能树不需要主动更新了
         self:ToAppear()
     end
 end
@@ -129,7 +131,9 @@ end
 
 -- 判定温蒂是否能释放暗影阿比技能 √
 function ShadowAbigail:IsWendyGetSkill()
-    return self._status == GETBUFF
+    -- return self._status == GETBUFF --不需要动态更新
+    local wendy = self.inst._playerlink
+    return wendy and wendy.components.skilltreeupdater:IsActivated(ACTIVE_SKILL)
 end
 
 -- 判定温蒂是否能增伤 √
@@ -168,7 +172,7 @@ function ShadowAbigail:IsFeignDead()
 end
 
 -- 判定阿比是否重定向伤害到温蒂 √
-function ShadowAbigail:IsCanRedirectDamage()
+function ShadowAbigail:IsRedirectDamage()
     return self._status == FEIGNDEATH
 end
 

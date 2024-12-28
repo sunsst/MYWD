@@ -353,11 +353,12 @@ local SKILLTREE_COMMAND_DEFS =
 -- MYWD:切换至暗影状态
 function GhostChangeShadow(inst, doer)
     if doer then
+        doer.components.sanity:DoDelta(TUNING.MYWD.WENDY_SHADOW_SKILL_SANITY_UPDATE)
         doer.components.mywd_wdbuf:ToActiveShadow()
     end
 end
 
-local SHADOW = {
+local TO_SHADOW = {
     label = STRINGS.GHOSTCOMMANDS.SHADOW,
     onselect = function(inst)
         local spellbook = inst.components.spellbook
@@ -384,9 +385,42 @@ local SHADOW = {
     widget_scale = ICON_SCALE,
 }
 
+function GhostChangeMoon(inst, doer)
+    if doer then
+        doer.components.sanity:DoDelta(TUNING.MYWD.WENDY_MOON_SKILL_SANITY_UPDATE)
+        doer.components.mywd_wdbuf:ToActiveMoon()
+    end
+end
+
+local TO_MOON = {
+    label = STRINGS.GHOSTCOMMANDS.MOON,
+    onselect = function(inst)
+        local spellbook = inst.components.spellbook
+        spellbook:SetSpellName(STRINGS.GHOSTCOMMANDS.MOON)
+
+        if TheWorld.ismastersim then
+            inst.components.aoespell:SetSpellFn(nil)
+            spellbook:SetSpellFn(GhostChangeMoon)
+        end
+    end,
+    execute = function(inst)
+        if ThePlayer.replica.inventory then
+            ThePlayer.replica.inventory:CastSpellBookFromInv(inst)
+        end
+    end,
+    bank = "spell_icons_wendy",
+    build = "spell_icons_wendy",
+    anims =
+    {
+        idle = { anim = "rile" },
+        focus = { anim = "rile_focus", loop = true },
+        down = { anim = "rile_pressed" },
+    },
+    widget_scale = ICON_SCALE,
+}
+
 local function GetGhostCommandsFor(owner)
     local commands = shallowcopy(BASECOMMANDS)
-
 
 
     -- 切换愤怒与安静状态的图标
@@ -394,8 +428,13 @@ local function GetGhostCommandsFor(owner)
     table.insert(commands, behaviour_command)
 
     -- MYWD: 添加两个我们自己的技能
-    if owner and owner.components.mywd_wdbuf:IsWendyGetSkillShadow() then
-        table.insert(commands, SHADOW)
+    if owner and owner.components.mywd_wdbuf then
+        if owner.components.mywd_wdbuf:IsWendyGetSkillShadow() then
+            table.insert(commands, TO_SHADOW)
+        end
+        if owner.components.mywd_wdbuf:IsWendyGetSkillMoon() then
+            table.insert(commands, TO_MOON)
+        end
     end
 
     -- MYWD: 先强行启用技能书所有技能

@@ -44,7 +44,18 @@ local IMPORT_GLOBAL = {
     ConditionNode = true,
     PriorityNode = true,
     ActionNode = true,
-    WhileNode = true
+    WhileNode = true,
+    FindFarmPlant = true,
+
+    EventHandler = true,
+    SpawnPrefab = true,
+    FindClosest = true,
+    DoAction = true,
+    BufferedAction = true,
+    SequenceNode = true,
+    Approach = true,
+    FindEntity = true,
+    IfNode = true,
 }
 
 -- 不要直接设置 GLOBAL 会报错

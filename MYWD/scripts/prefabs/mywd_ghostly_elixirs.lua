@@ -28,18 +28,12 @@ local potion_tunings =
 
         ONAPPLY = function(inst, target)
             if target and target:IsValid() then
-                target.components.planardamage:SetBaseDamage(target.components.planardamage:GetBaseDamage() +
-                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DAMAGE)
-                target.components.planardefense:SetBaseDefense(target.components.planardefense:GetBaseDefense() +
-                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DEFENSE)
+                target.components.mywd_moonab:ToGetBuff()
             end
         end,
         ONDETACH = function(inst, target)
             if target and target:IsValid() then
-                target.components.planardamage:SetBaseDamage(target.components.planardamage:GetBaseDamage() -
-                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DAMAGE)
-                target.components.planardefense:SetBaseDefense(target.components.planardefense:GetBaseDefense() -
-                    TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DEFENSE)
+                target.components.mywd_moonab:ToNormal()
             end
         end,
         DURATION = TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DURATION,

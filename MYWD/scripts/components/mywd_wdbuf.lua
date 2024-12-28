@@ -56,4 +56,24 @@ function WendyBuff:ToNormalShadow()
     return ab and ab.components.mywd_shadowab:ToNormal()
 end
 
+-------------------------------------------------------------------------------------------
+
+-- 判定温蒂是否能释放月亮阿比技能 √
+function WendyBuff:IsWendyGetSkillMoon()
+    local ab = self:GetAbigail()
+    return ab and ab.components.mywd_moonab:IsWendyGetSkill()
+end
+
+-- 激活月亮阿比盖尔 √
+function WendyBuff:ToActiveMoon()
+    local ab = self:GetAbigail()
+    return ab and ab.components.mywd_moonab:ToActive()
+end
+
+-- 判定阿比盖尔是否能发射导弹
+-- function WendyBuff:IsFireMoon()
+--     local ab = self:GetAbigail()
+--     return ab and ab.components.mywd_moonab:IsFire()
+-- end
+
 return WendyBuff

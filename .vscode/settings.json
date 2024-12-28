@@ -16,7 +16,8 @@
         "AddAction",
         "AddClassPostConstruct",
         "AddComponentPostInit",
-        "AddBrainPostInit"
+        "AddBrainPostInit",
+        "AddStategraphActionHandler"
     ],
     "Lua.runtime.version": "Lua 5.1",
     "Lua.completion.autoRequire": false,

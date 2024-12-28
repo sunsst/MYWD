@@ -20,6 +20,7 @@ local anims = {
 -- 预制件
 local prefabs = {
     "mywd_ghostly_elixirs", -- 灵体草药
+    "mywd_abigail_missile",
 
 
     -- 以下都是来自测试服的代码
@@ -65,8 +66,10 @@ local modscripts = {
     "from_test/vars",
 
     -- 自己修改的代码
-    "prefabs/abigail",
-    "prefabs/wendy",
+    "prefabs/abigail_shadow",
+    "prefabs/abigail_moon",
+    "prefabs/wendy_shadow",
+    "prefabs/wendy_moon",
     "widgets/pethealthbadge", -- 修改状态栏的药剂图标
 }
 

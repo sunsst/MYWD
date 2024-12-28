@@ -71,7 +71,7 @@ local function post_fn(inst)
 
     -- 重定向暗影buff期间的伤害到温蒂
     local function new_redirectdamagefn(inst)
-        if inst._playerlink and shadowab:IsCanRedirectDamage() then
+        if inst._playerlink and shadowab:IsRedirectDamage() then
             return inst._playerlink
         end
     end
@@ -114,7 +114,7 @@ end
 local function barin_post_fn(self)
     -- 让阿比盖尔满足条件时不要移动
     local shadow_abigail_node = ConditionNode(function() return self.inst.components.mywd_shadowab:IsCantMove() end,
-        "Shdaow Abigail")
+        "CantMove")
     table.insert(self.bt.root.children, 1, shadow_abigail_node)
 end
 

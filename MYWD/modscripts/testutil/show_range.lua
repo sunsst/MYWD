@@ -1,6 +1,6 @@
 local R = 1896 / 2 / 1024 * 1.7 * 4
 
-function ShowRange(parent, rad)
+function ShowRange(parent, rad, addcolor)
     local inst = CreateEntity()
 
     --[[Non-networked entity]]
@@ -21,7 +21,9 @@ function ShowRange(parent, rad)
     inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
     inst.AnimState:SetLayer(LAYER_BACKGROUND)
     inst.AnimState:SetSortOrder(1)
-    inst.AnimState:SetAddColour(0, .2, .5, 0)
+    addcolor = addcolor or {}
+    inst.AnimState:SetAddColour(addcolor[1] or 0, addcolor[2] or .2, addcolor[3] or .5, addcolor[4] or 0)
+
 
     inst.entity:SetParent(parent.entity)
 

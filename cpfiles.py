@@ -31,6 +31,14 @@ atlas_files:list[str] = [
 ]
 
 lua_files:list[str] = [
+    "stategraphs/SGabigail.lua",
+    "brains/abigailbrain.lua",
+    "components/sanityauraadjuster.lua",
+    "prefabs/abigail_flower.lua",
+    "prefabs/abigail.lua",
+    "prefabs/ghostcommand_defs.lua",
+    "prefabs/wendy.lua",
+    "prefabs/skilltree_wendy.lua"
 ]
     
 # for root , dirs, files in os.walk(os.path.join(cwd,"MYWD/scripts")):

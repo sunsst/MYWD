@@ -56,6 +56,8 @@ local IMPORT_GLOBAL = {
     Approach = true,
     FindEntity = true,
     IfNode = true,
+    debug = true,
+    resolvefilepath = true,
 }
 
 -- 不要直接设置 GLOBAL 会报错

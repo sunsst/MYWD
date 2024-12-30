@@ -54,6 +54,7 @@ local modscripts = {
     "skills",
     "recipes",
     "command",
+    "actions",
 
     -- 测试用的库，到时候记得去掉
     "testutil/show_range",

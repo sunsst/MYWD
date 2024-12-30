@@ -30,8 +30,10 @@ TUNING.MYWD = {
     ABIGAIL_MOON_MISSILE_DAMAGE = 11,
     -- 月亮形态下阿比导弹速度
     ABIGAIL_MOON_MISSILE_SPEED = 30,
-    -- 月亮形态下阿比发现蝴蝶的距离
+    -- 月亮形态下阿比以温蒂为圆心发现蝴蝶以及抓捕蝴蝶可以远离的距离
     ABIGAIL_MOON_FIND_BUTTERFLY_RADIUS = 8,
     -- 月亮形态下阿比触发抓蝴蝶以及给蝴蝶的距离
     ABIGAIL_MOON_CATCH_BUTTERFLY_DIST = 1.5,
+    -- 暗影形态下阿比假死触发血量
+    ABIGAIL_SHADOW_FEIGNDEAD_HEALTH_CEILING = 0,
 }

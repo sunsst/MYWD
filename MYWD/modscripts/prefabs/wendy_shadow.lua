@@ -4,10 +4,65 @@ local function auratest(inst, target, can_initiate)
         return false
     end
     -- 不要伤害自己的阿比盖尔
-    if inst.components.ghostlybond and inst.components.ghostlybond.ghost == target then
+    if WD2AB(inst) == target then
         return false
     end
     return true
+end
+
+
+local function make_customdamagemultfn(old_fn)
+    return function(inst, target)
+        local sdab = WD2ABShadow(inst)
+        local v = old_fn(inst, target)
+        return (sdab and sdab:IsWendyDamageUP() and TUNING.MYWD.WENDY_SHADOW_DAMAGE_MOD or 1) * v
+    end
+end
+
+
+local function make_PushAction(old_fn)
+    return function(self, bufferedaction, run, try_instant)
+        local sdab = WD2ABShadow(self.inst)
+
+        if sdab and bufferedaction.action == ACTIONS.ATTACK and sdab:IsCantAttack() then
+            -- 拦截攻击动作
+            return
+        end
+
+        old_fn(self, bufferedaction, run, try_instant)
+    end
+end
+
+local function make_ChangeBehaviour(old_fn)
+    return function(self)
+        local sdab = WD2ABShadow(self.inst)
+        if sdab:IsCantDefensive() then
+            c_announce("拦截温蒂切换阿比状态") --mywd
+            return false
+        else
+            c_announce("正常温蒂切换阿比状态") --mywd
+            return old_fn(self)
+        end
+    end
+end
+
+local function make_Recall(old_fn)
+    return function(self, was_killed)
+        local sdab = WD2ABShadow(self.inst)
+        if sdab then
+            if sdab:IsCantInLimbo() then
+                c_announce("拦截温蒂召唤阿比") --mywd
+                return false
+            elseif sdab:IsFeignDead() then
+                c_announce("阿比假死状态回收") --mywd
+                sdab:ToNormal()
+                return old_fn(self, was_killed)
+            end
+        end
+
+        c_announce("正常温蒂收回阿比") --mywd
+        return old_fn(self, was_killed)
+    end
 end
 
 
@@ -19,60 +74,23 @@ local function prefab_post_fn(inst)
     -- aura.ignoreallies = true
     aura.auratestfn = auratest
 
-    -- 辅组条件判断组件
-    local wdbuf = inst:AddComponent("mywd_wdbuf")
-
 
     -- 修改温蒂的运动组件，AOE期间禁止攻击
-    local old_pushactionfn = inst.components.locomotor.PushAction
-    local function new_pushactionfn(self, bufferedaction, run, try_instant)
-        if not (bufferedaction.action == ACTIONS.ATTACK and wdbuf:IsWendyAOEShadow()) then
-            old_pushactionfn(self, bufferedaction, run, try_instant)
-        end
-    end
-    inst.components.locomotor.PushAction = new_pushactionfn
+    inst.components.locomotor.PushAction = make_PushAction(inst.components.locomotor.PushAction)
 
 
     -- 修改温蒂自定义伤害函数，添加暗影buff增伤，保留原有增伤
-    local old_customdamagemultfn = inst.components.combat.customdamagemultfn
-    local new_customdamagemultfn = function(inst, target)
-        return (wdbuf:IsWendyDamageUPShadow() and TUNING.MYWD.WENDY_SHADOW_DAMAGE_MOD or 1) *
-            old_customdamagemultfn(inst, target)
-    end
-    inst.components.combat.customdamagemultfn = new_customdamagemultfn
+    inst.components.combat.customdamagemultfn = make_customdamagemultfn(inst.components.combat.customdamagemultfn)
 
     -- 禁止切换阿比状态
-    local old_changebehaviourfn = inst.components.ghostlybond.ChangeBehaviour
-    local new_changebehaviourfn = function(self)
-        if wdbuf:IsCantDefensiveShadow() then
-            c_announce("拦截温蒂切换阿比状态") --mywd
-            return false
-        else
-            c_announce("正常温蒂切换阿比状态") --mywd
-            return old_changebehaviourfn(self)
-        end
-    end
-    inst.components.ghostlybond.ChangeBehaviour = new_changebehaviourfn
+    inst.components.ghostlybond.ChangeBehaviour = make_ChangeBehaviour(inst.components.ghostlybond.ChangeBehaviour)
 
     -- 假死期间禁止召回
-    local old_recalfn = inst.components.ghostlybond.Recall
-    local new_recallfn = function(self, was_killed)
-        if wdbuf:IsCantInLimboShadow() then
-            c_announce("拦截温蒂召唤阿比") --mywd
-            return false
-        elseif wdbuf:IsFeignDeadShadow() then
-            c_announce("阿比假死状态回收") --mywd
-            wdbuf:ToNormalShadow()
-            return old_recalfn(self, was_killed)
-        else
-            c_announce("正常温蒂收回阿比") --mywd
-            return old_recalfn(self, was_killed)
-        end
-    end
-    inst.components.ghostlybond.Recall = new_recallfn
+    inst.components.ghostlybond.Recall = make_Recall(inst.components.ghostlybond.Recall)
 end
 
 
+--------------------------------------------------------------------------------------------------------------------------------
 
 local function modify()
     AddPrefabPostInit("wendy", prefab_post_fn)

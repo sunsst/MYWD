@@ -52,6 +52,39 @@ function GetAllUpValue(f)
     end
 end
 
+-- 从温蒂实体对象获取阿比盖尔实体对象
+function WD2AB(wendy_inst)
+    return wendy_inst and wendy_inst:IsValid() and wendy_inst.components.ghostlybond and
+        wendy_inst.components.ghostlybond.ghost or nil
+end
+
+-- 从温蒂实体对象获取阿比盖尔暗影buff组件
+function WD2ABShadow(wendy_inst)
+    local ab = WD2AB(wendy_inst)
+    return ab and ab:IsValid() and ab.components.mywd_shadowab or nil
+end
+
+-- 从温蒂实体对象获取阿比盖尔月亮buff组件
+function WD2ABMoon(wendy_inst)
+    local ab = WD2AB(wendy_inst)
+    return ab and ab:IsValid() and ab.components.mywd_moonab or nil
+end
+
+-- 从阿比盖尔实体对象获取阿比盖尔月亮buff组件
+function AB2Moon(abigail_inst)
+    return abigail_inst and abigail_inst:IsValid() and abigail_inst.components.mywd_moonab or nil
+end
+
+-- 从阿比盖尔实体对象获取阿比盖尔暗影buff组件
+function AB2Shadow(abigail_inst)
+    return abigail_inst and abigail_inst:IsValid() and abigail_inst.components.mywd_shadowab or nil
+end
+
+-- 从温蒂实体对象获取阿比盖尔实体对象
+function AB2WD(abigail_inst)
+    return abigail_inst and abigail_inst:IsValid() and abigail_inst._playerlink or nil
+end
+
 -- 用不到但先留着
 -- function GetRawObjectPropsArg(obj, arg_name)
 --     return rawget(obj, "_")[arg_name][2]

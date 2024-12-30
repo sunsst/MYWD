@@ -13,72 +13,88 @@ local MoonAbigail = Class(function(self, inst)
     self._status = NORMAL
 end)
 
-function MoonAbigail:_update_planar()
-    local factor = self:IsGetPlanarValue() and 1 or -1
-    self.inst.components.planardamage:SetBaseDamage(self.inst.components.planardamage:GetBaseDamage() +
-        TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DAMAGE * factor)
-    self.inst.components.planardefense:SetBaseDefense(self.inst.components.planardefense:GetBaseDefense() +
-        TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DEFENSE * factor)
-end
-
-function MoonAbigail:_update_effect_wendy_sanity()
-    local wendy = self.inst._playerlink
-    if wendy then
-        -- local factor = self:IsEffectWendySanity() and 1 or -1
-        -- wendy.components.sanity.dapperness = wendy.components.sanity.dapperness +
-        --     factor * TUNING.MYWD.WENDY_MOONABIGAIL_EFFECT_SANITY_VALUE
-        wendy.components.sanity.dapperness = self:IsEffectWendySanity() and
-            TUNING.MYWD.WENDY_MOONABIGAIL_EFFECT_SANITY_VALUE or 0
+function MoonAbigail:_update_planar(status, last_status)
+    -- 为了减少出错概率只在启用或停用时调整数值
+    local factor
+    if last_status == NORMAL and status ~= NORMAL then
+        factor = 1
+    elseif last_status ~= NORMAL and status == NORMAL then
+        factor = -1
+    else
+        return
+    end
+    if self.inst.components.planardamage then
+        self.inst.components.planardamage:SetBaseDamage(self.inst.components.planardamage:GetBaseDamage() +
+            TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DAMAGE * factor)
+    end
+    if self.inst.components.planardefense then
+        self.inst.components.planardefense:SetBaseDefense(self.inst.components.planardefense:GetBaseDefense() +
+            TUNING.MYWD.GHOSTLYELIXIR_MYWD_MOON_DEFENSE * factor)
     end
 end
 
-function MoonAbigail:_update_aura()
-    self.inst.components.aura:Enable(not self:IsCantAura())
+function MoonAbigail:_update_effect_wendy_sanity(status, last_status)
+    local wendy = self.inst._playerlink
+    local sanity = wendy and wendy.components.sanity
+    if not sanity then return end
+
+    local factor
+    if last_status < ACTIVE and status >= ACTIVE then
+        factor = 1
+    elseif last_status >= ACTIVE and status < ACTIVE then
+        factor = -1
+    else
+        return
+    end
+    sanity.dapperness = sanity.dapperness + TUNING.MYWD.WENDY_MOONABIGAIL_EFFECT_SANITY_VALUE * factor
+end
+
+function MoonAbigail:_update_aura(status)
+    self.inst.components.aura:Enable(status < ACTIVE)
+end
+
+-- 清理掉玩家身上的特殊状态
+function MoonAbigail:RefreshPlayerState(do_fn, ...)
+    self:_update_effect_wendy_sanity(NORMAL, self._status)
+    do_fn(...)
+    self:_update_effect_wendy_sanity(self._status, NORMAL)
+end
+
+-- 更新其他状态
+function MoonAbigail:Update(new_state)
+    local last_state = self._status
+    new_state = new_state or last_state
+    self._status = new_state
+    self:_update_planar(new_state, last_state)
+    self:_update_effect_wendy_sanity(new_state, last_state)
+    self:_update_aura(new_state)
 end
 
 -- 获得药剂BUFF阶段 √
 function MoonAbigail:ToGetBuff()
     if self._status == NORMAL then
-        self._status = GETBUFF
-        self:_update_planar()
+        self:Update(GETBUFF)
     end
 end
 
 -- 使用技能激活月亮阿比形态阶段 √
 function MoonAbigail:ToActive()
     if self._status == GETBUFF then
-        self._status = ACTIVE
-        -- self:_update_skill() --依据技能树不需要主动更新了
-        self:_update_effect_wendy_sanity()
-        self:_update_aura()
+        self:Update(ACTIVE)
     end
 end
 
 -- 回到正常√
 function MoonAbigail:ToNormal()
-    if self._status > NORMAL then
-        self._status = NORMAL
-        self:_update_planar()
-        self:_update_effect_wendy_sanity()
-        self:_update_aura()
+    if self._status ~= NORMAL then
+        self:Update(NORMAL)
     end
-end
-
--- 判定阿比是否获得位面数值 √
-function MoonAbigail:IsGetPlanarValue()
-    return self._status >= GETBUFF
 end
 
 -- 判定温蒂是否能释放月亮阿比技能 √
 function MoonAbigail:IsWendyGetSkill()
-    -- return self._status == GETBUFF --不需要动态更新
     local wendy = self.inst._playerlink
     return wendy and wendy.components.skilltreeupdater:IsActivated(ACTIVE_SKILL)
-end
-
--- 判定温蒂是否能获得来自月亮阿比的回san √
-function MoonAbigail:IsEffectWendySanity()
-    return self._status >= ACTIVE
 end
 
 -- 判定阿比盖尔是否禁止打架 √
@@ -91,19 +107,30 @@ function MoonAbigail:IsCantAura()
     return self._status >= ACTIVE
 end
 
--- 判定阿比盖尔是否能与植物对话
+-- 判定阿比盖尔是否能与植物对话 √
 function MoonAbigail:IsTalkToPlants()
     return self._status >= ACTIVE and self.inst.is_defensive
 end
 
--- 判定阿比盖尔是否能发射导弹
+-- 判定阿比盖尔是否能发射导弹 √
 function MoonAbigail:IsFire()
     return self._status >= ACTIVE and not self.inst.is_defensive
 end
 
--- 判定阿比盖尔是否能抓蝴蝶
+-- 判定阿比盖尔是否能抓蝴蝶 √
 function MoonAbigail:IsCatchButterfly()
     return self._status >= ACTIVE and self.inst.is_defensive
+end
+
+function MoonAbigail:OnSave()
+    return {
+        status = self._status
+    }
+end
+
+function MoonAbigail:OnLoad(data)
+    self._status = NORMAL
+    self:Update(data.status or NORMAL)
 end
 
 function MoonAbigail:GetDebugString()

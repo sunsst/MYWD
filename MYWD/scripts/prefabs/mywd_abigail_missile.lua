@@ -1,4 +1,4 @@
-local spawn_radius = 2
+local SPAWN_RADIUS = 2
 
 local function onhit(inst, attacker, target)
     c_announce("导弹命中") --mywd
@@ -18,12 +18,12 @@ local function Fire(self, abigail, target)
         return
     end
 
-    local x, z, y = abigail.Transform:GetWorldPosition()
+    local x, y, z = abigail.Transform:GetWorldPosition()
     local r = math.random() - 0.5
-    x = r * spawn_radius + x
+    x = r * SPAWN_RADIUS + x
     r = math.random() - 0.5
-    y = r * spawn_radius + y
-    self.Transform:SetPosition(x, z, y)
+    z = r * SPAWN_RADIUS + z
+    self.Transform:SetPosition(x, y, z)
     self.components.projectile:Throw(abigail, target, abigail)
 end
 

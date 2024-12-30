@@ -16,7 +16,11 @@ all_args = nil
 local function GhostChangeShadow(inst, doer)
     if doer then
         doer.components.sanity:DoDelta(TUNING.MYWD.WENDY_SHADOW_SKILL_SANITY_UPDATE)
-        doer.components.mywd_wdbuf:ToActiveShadow()
+
+        local sdab = WD2ABShadow(doer)
+        if sdab then
+            sdab:ToActive()
+        end
     end
 end
 
@@ -52,7 +56,11 @@ local TO_SHADOW = {
 local function GhostChangeMoon(inst, doer)
     if doer then
         doer.components.sanity:DoDelta(TUNING.MYWD.WENDY_MOON_SKILL_SANITY_UPDATE)
-        doer.components.mywd_wdbuf:ToActiveMoon()
+
+        local mnab = WD2ABMoon(doer)
+        if mnab then
+            mnab:ToActive()
+        end
     end
 end
 
@@ -94,13 +102,13 @@ local function GetGhostCommandsFor(owner)
     table.insert(commands, behaviour_command)
 
     -- MYWD: 添加两个我们自己的技能
-    if owner and owner.components.mywd_wdbuf then
-        if owner.components.mywd_wdbuf:IsWendyGetSkillShadow() then
-            table.insert(commands, TO_SHADOW)
-        end
-        if owner.components.mywd_wdbuf:IsWendyGetSkillMoon() then
-            table.insert(commands, TO_MOON)
-        end
+    local mnab = WD2ABMoon(owner)
+    local sdab = WD2ABShadow(owner)
+    if sdab and sdab:IsWendyGetSkill() then
+        table.insert(commands, TO_SHADOW)
+    end
+    if mnab and mnab:IsWendyGetSkill() then
+        table.insert(commands, TO_MOON)
     end
 
     -- MYWD: 先强行启用技能书所有技能

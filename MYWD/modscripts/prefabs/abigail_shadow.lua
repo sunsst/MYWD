@@ -50,16 +50,15 @@ local function make_SetVal(old_fn)
     return function(self, val, cause, afflicter)
         local sdab = AB2Shadow(self.inst)
         if sdab then
+            sdab:ToFeignDeath(val)
             if sdab:IsFeignDead() then
                 -- 阿比盖尔已经进入假死状态
                 c_announce("假死状态拦截血量调整 " .. val) --mywd
-                return
-            else
-                sdab:ToFeignDeath(val)
-                if sdab:IsFeignDead() then
-                    c_announce("进入假死状态成功 " .. val) --mywd
-                    return
+                if self.currenthealth > TUNING.MYWD.ABIGAIL_SHADOW_FEIGNDEAD_HEALTH_CEILING then
+                    self.currenthealth = TUNING.MYWD.ABIGAIL_SHADOW_FEIGNDEAD_HEALTH_CEILING
+                    self.inst:RemoveTag("isdead") -- 不填上这个标签阿比盖尔才能挨打
                 end
+                return
             end
         end
         old_fn(self, val, cause, afflicter)

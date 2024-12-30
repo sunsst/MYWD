@@ -31,3 +31,14 @@ function ShowRange(parent, rad, addcolor)
         inst:Remove()
     end)
 end
+
+local function SetRange()
+    AddPrefabPostInit("wendy", function(inst)
+        ShowRange(inst, TUNING.MYWD.ABIGAIL_MOON_FIND_BUTTERFLY_RADIUS, { 0, 0.2 })
+        ShowRange(inst, TUNING.MYWD.WENDY_SUMMON_ABIGAIL_RADIUS, { 0.2, 0.2 })
+    end)
+    AddPrefabPostInit("abigail", function(inst)
+        ShowRange(inst, TUNING.MYWD.ABIGAIL_MOON_CATCH_BUTTERFLY_DIST, { 0, 1 })
+    end)
+end
+SetRange()

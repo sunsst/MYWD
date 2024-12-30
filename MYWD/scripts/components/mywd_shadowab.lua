@@ -4,7 +4,6 @@ local ACTIVE = 2
 local APPEAR = 3
 local FEIGNDEATH = 4
 
-local ACTIVE_SKILL = "mywd_shadow_2"
 
 
 local ShadowAbigail = Class(function(self, inst)
@@ -62,18 +61,30 @@ function ShadowAbigail:_update_regen_state(status)
     end
 end
 
-function ShadowAbigail:_update_abigail_health(status)
-    -- 假死状态保证血量为0
-    local health = self.inst.components.health
-    if status == FEIGNDEATH and health and health.currenthealth > TUNING.MYWD.ABIGAIL_SHADOW_FEIGNDEAD_HEALTH_CEILING then
-        health.currenthealth = TUNING.MYWD.ABIGAIL_SHADOW_FEIGNDEAD_HEALTH_CEILING
-        self.inst:RemoveTag("isdead") -- 不填上这个标签阿比盖尔才能挨打
+function ShadowAbigail:_update_flower()
+    local wd = self.inst._playerlink
+    local wd_inventory = wd and wd.components.inventory or nil
+    if not wd_inventory then return end
+
+    for item in pairs(wd_inventory:GetItemByName("abigail_flower", 99)) do
+        item:PushEvent("spellupdateneeded", wd)
     end
 end
 
 function ShadowAbigail:_update_abgail_mood(status)
-    if status >= APPEAR and self.inst._playerlink then
-        self.inst:BecomeAggressive()
+    if status >= APPEAR and self.inst.is_defensive then
+        local wd = self.inst._playerlink
+
+        if wd and wd.components.ghostlybond then
+            wd.components.ghostlybond:ChangeBehaviour()
+        end
+
+        local wd_inventory = wd and wd.components.inventory or nil
+        if wd_inventory then
+            for item in pairs(wd_inventory:GetItemByName("abigail_flower", 99)) do
+                item:PushEvent("spellupdateneeded", wd)
+            end
+        end
     end
 end
 
@@ -94,7 +105,6 @@ function ShadowAbigail:Update(new_state)
     self:_update_planar(new_state, last_state)
     self:_update_regen_state(new_state)
     self:_update_wendy_aoe(new_state)
-    self:_update_abigail_health(new_state)
     self:_update_abgail_mood(new_state)
 end
 
@@ -121,11 +131,8 @@ function ShadowAbigail:ToAppear()
 end
 
 -- 阿比盖尔假死 √
-function ShadowAbigail:ToFeignDeath(currenthealth)
-    if not currenthealth then
-        currenthealth = self.inst.components.health and self.inst.components.health.currenthealth
-    end
-    if self._status == APPEAR and currenthealth and currenthealth <= TUNING.MYWD.ABIGAIL_SHADOW_FEIGNDEAD_HEALTH_CEILING then
+function ShadowAbigail:ToFeignDeath(health)
+    if self._status == APPEAR and health <= TUNING.MYWD.ABIGAIL_SHADOW_FEIGNDEAD_HEALTH_CEILING then
         self:Update(FEIGNDEATH)
     end
 end
@@ -140,12 +147,6 @@ end
 -- 判定温蒂是否是AOE攻击模式 √
 function ShadowAbigail:IsCantAttack()
     return self._status >= GETBUFF
-end
-
--- 判定温蒂是否能释放暗影阿比技能 √
-function ShadowAbigail:IsWendyGetSkill()
-    local wendy = self.inst._playerlink
-    return wendy and wendy.components.skilltreeupdater:IsActivated(ACTIVE_SKILL)
 end
 
 -- 判定温蒂是否能增伤 √
@@ -183,9 +184,14 @@ function ShadowAbigail:IsRedirectDamage()
     return self._status == FEIGNDEATH
 end
 
+-- 判断是否已经进入激活状态 (决定是否触发使用技能的损耗)√
+function ShadowAbigail:IsEnteredActive()
+    return self._status >= ACTIVE
+end
+
 function ShadowAbigail:OnSave()
     return {
-        status = self._status
+        status = self._status,
     }
 end
 

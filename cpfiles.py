@@ -34,6 +34,7 @@ lua_files:list[str] = [
     "stategraphs/SGabigail.lua",
     "brains/abigailbrain.lua",
     "components/sanityauraadjuster.lua",
+    "components/ghostlybond.lua",
     "prefabs/abigail_flower.lua",
     "prefabs/abigail.lua",
     "prefabs/ghostcommand_defs.lua",

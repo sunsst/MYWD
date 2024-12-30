@@ -16,7 +16,6 @@ end
 local function prefab_post_fn(inst)
     -- 当温蒂攻击别人时生成阿比盖尔的导弹并发射
     inst:ListenForEvent("onhitother", onhitother)
-    ShowRange(inst, TUNING.MYWD.ABIGAIL_MOON_FIND_BUTTERFLY_RADIUS, { 0, 0.2 })
 end
 
 --------------------------------------------------------------------------------------------------------------------------------

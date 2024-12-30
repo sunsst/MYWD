@@ -19,7 +19,7 @@ local anims = {
 
 -- 预制件
 local prefabs = {
-    "mywd_ghostly_elixirs", -- 灵体草药
+    "mywd_ghostly_elixirs_special", -- 灵体草药月亮暗影
     "mywd_abigail_missile",
 
 
@@ -48,13 +48,8 @@ local modscripts = {
     "menv",
     -- 一些封装起来的函数
     "utils",
-
     -- 基本的全局变量设置
     "tuning",
-    "skills",
-    "recipes",
-    "command",
-    "actions",
 
     -- 测试用的库，到时候记得去掉
     "testutil/show_range",
@@ -67,12 +62,20 @@ local modscripts = {
     "from_test/SGwilson",
     "from_test/vars",
 
-    -- 自己修改的代码
+    -- 基本修改
+    "skills",
+    "recipes",
+    "command",
+    "actions",
+
+    -- 修改预制体及其状态机和行为树的代码
     "prefabs/abigail_shadow",
     "prefabs/abigail_moon",
     "prefabs/wendy_shadow",
     "prefabs/wendy_moon",
-    "widgets/pethealthbadge", -- 修改状态栏的药剂图标
+
+    -- 修改UI的代码
+    "widgets/pethealthbadge", -- 修改阿比盖尔血量角标
 }
 
 --------------------------------------------------------------------------------------------------------

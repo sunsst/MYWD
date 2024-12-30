@@ -11,6 +11,8 @@ TUNING.MYWD = {
 
 
 
+    -- 温蒂召唤阿比盖尔的半径
+    WENDY_SUMMON_ABIGAIL_RADIUS = 20,
     -- 温蒂范围攻击半径
     WENDY_AURA_RADIUS = 4,
     -- 温蒂范围攻击间隔/秒

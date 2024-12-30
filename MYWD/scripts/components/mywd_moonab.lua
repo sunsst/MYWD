@@ -91,12 +91,6 @@ function MoonAbigail:ToNormal()
     end
 end
 
--- 判定温蒂是否能释放月亮阿比技能 √
-function MoonAbigail:IsWendyGetSkill()
-    local wendy = self.inst._playerlink
-    return wendy and wendy.components.skilltreeupdater:IsActivated(ACTIVE_SKILL)
-end
-
 -- 判定阿比盖尔是否禁止打架 √
 function MoonAbigail:IsCantFight()
     return self._status >= ACTIVE
@@ -120,6 +114,11 @@ end
 -- 判定阿比盖尔是否能抓蝴蝶 √
 function MoonAbigail:IsCatchButterfly()
     return self._status >= ACTIVE and self.inst.is_defensive
+end
+
+-- 判断是否已经进入激活状态 (决定是否触发使用技能的损耗 √)
+function MoonAbigail:IsEnteredActive()
+    return self._status >= ACTIVE
 end
 
 function MoonAbigail:OnSave()

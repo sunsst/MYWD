@@ -35,10 +35,20 @@ end
 
 local function make_ChangeBehaviour(old_fn)
     return function(self)
-        local sdab = WD2ABShadow(self.inst)
-        if sdab:IsCantDefensive() then
-            c_announce("拦截温蒂切换阿比状态") --mywd
-            return false
+        local ab = WD2AB(self.inst)
+        local sdab = AB2Shadow(ab)
+        if ab and sdab and sdab:IsCantDefensive() then
+            if not ab.is_defensive then
+                c_announce("拦截温蒂切换阿比状态") --mywd
+                return false
+            elseif self.changebehaviourfn then
+                c_announce("强制激怒阿比") --mywd
+                return self.changebehaviourfn(self.inst, ab)
+            else
+                c_announce("直接激怒阿比") --mywd
+                ab:BecomeDefensive()
+                return true
+            end
         else
             c_announce("正常温蒂切换阿比状态") --mywd
             return old_fn(self)

@@ -17,8 +17,6 @@ local function post_fn(inst)
 
     -- 优化玩家连接策略
     inst.LinkToPlayer = make_LinkToPlayer(inst.LinkToPlayer)
-
-    ShowRange(inst, TUNING.MYWD.ABIGAIL_MOON_CATCH_BUTTERFLY_DIST, { 0, 1 })
 end
 
 ------------------------------------------------------------------------------------------------------------------------

@@ -13,7 +13,13 @@
         "AddStategraphState",
         "AddStategraphEvent",
         "env",
-        "AddAction"
+        "AddAction",
+        "AddClassPostConstruct",
+        "AddComponentPostInit",
+        "AddBrainPostInit",
+        "AddStategraphActionHandler"
     ],
-    "Lua.runtime.version": "Lua 5.1"
+    "Lua.runtime.version": "Lua 5.1",
+    "Lua.completion.autoRequire": false,
+    "python.analysis.autoImportCompletions": true
 }

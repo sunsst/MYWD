@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global, need-check-nil, undefined-field, undefined-field, redundant-parameter
 require "behaviours/doaction"
 require "behaviours/follow"
 require "behaviours/wander"
@@ -6,7 +7,7 @@ local AbigailBrain = Class(Brain, function(self, inst)
     Brain._ctor(self, inst)
 end)
 
-local WANDER_TIMING = { minwaittime = 6, randwaittime = 6 }
+local WANDER_TIMING = {minwaittime = 6, randwaittime = 6}
 local MAX_BABYSIT_WANDER = 6
 
 local function GetLeader(inst)
@@ -38,10 +39,10 @@ local function ShouldDanceParty(inst)
 end
 
 local function GetTraderFn(inst)
-    local leader = inst.components.follower ~= nil and inst.components.follower.leader
-    if leader ~= nil then
-        return inst.components.trader:IsTryingToTradeWithMe(leader) and leader or nil
-    end
+	local leader = inst.components.follower ~= nil and inst.components.follower.leader
+	if leader ~= nil then
+		return inst.components.trader:IsTryingToTradeWithMe(leader) and leader or nil
+	end
 end
 
 local function KeepTraderFn(inst, target)
@@ -56,14 +57,15 @@ end
 
 local function WatchingMinigame(inst)
     local leader = inst.components.follower.leader
-    return (leader ~= nil
-            and leader.components.minigame_participator ~= nil
-            and leader.components.minigame_participator:GetMinigame())
+	return (leader ~= nil
+        and leader.components.minigame_participator ~= nil
+        and leader.components.minigame_participator:GetMinigame())
         or nil
 end
 
 --
 local function DefensiveCanFight(inst)
+
     local target = inst.components.combat.target
     if target ~= nil and not inst.auratest(inst, target) then
         inst.components.combat:GiveUp()
@@ -81,6 +83,7 @@ end
 
 local MAX_AGGRESSIVE_FIGHT_DSQ = math.pow(TUNING.ABIGAIL_COMBAT_TARGET_DISTANCE + 2, 2)
 local function AggressiveCanFight(inst)
+
     local target = inst.components.combat.target
     if target ~= nil and not inst.auratest(inst, target) then
         inst.components.combat:GiveUp()
@@ -105,20 +108,20 @@ end
 
 local PRIORITY_NODE_RATE = 0.25
 function AbigailBrain:OnStart()
-    local watch_game = WhileNode(function() return ShouldWatchMinigame(self.inst) end, "Watching Game",
+
+	local watch_game = WhileNode( function() return ShouldWatchMinigame(self.inst) end, "Watching Game",
         PriorityNode({
-            Follow(self.inst, WatchingMinigame, TUNING.MINIGAME_CROWD_DIST_MIN, TUNING.MINIGAME_CROWD_DIST_TARGET,
-                TUNING.MINIGAME_CROWD_DIST_MAX),
+            Follow(self.inst, WatchingMinigame, TUNING.MINIGAME_CROWD_DIST_MIN, TUNING.MINIGAME_CROWD_DIST_TARGET, TUNING.MINIGAME_CROWD_DIST_MAX),
             RunAway(self.inst, "minigame_participator", 5, 7),
             FaceEntity(self.inst, WatchingMinigame, WatchingMinigame),
-        }, PRIORITY_NODE_RATE))
+		}, PRIORITY_NODE_RATE))
 
     --#1 priority is dancing beside your leader. Obviously.
     local dance = WhileNode(function() return ShouldDanceParty(self.inst) end, "Dance Party",
         PriorityNode({
             Leash(self.inst, GetLeaderPos, TUNING.ABIGAIL_DEFENSIVE_MED_FOLLOW, TUNING.ABIGAIL_DEFENSIVE_MED_FOLLOW),
             ActionNode(function() DanceParty(self.inst) end),
-        }, PRIORITY_NODE_RATE))
+    }, PRIORITY_NODE_RATE))
 
     local transparent_behaviour = WhileNode(function() return self.inst._is_transparent end, "Is Transparent",
         PriorityNode({
@@ -134,31 +137,26 @@ function AbigailBrain:OnStart()
     --
     local defensive_mode = WhileNode(function() return self.inst.is_defensive end, "DefensiveMove",
         PriorityNode({
-            WhileNode(
-                function() return self.inst:HasTag("gestalt") and self.inst.components.combat.target and
-                    (self.inst.components.combat:InCooldown() or self.inst:HasTag("gestalt_hide")) end, "gestalt avoid",
+            WhileNode(function() return self.inst:HasTag("gestalt") and self.inst.components.combat.target and( self.inst.components.combat:InCooldown() or self.inst:HasTag("gestalt_hide") ) end, "gestalt avoid",
                 RunAway(self.inst, function() return self.inst.components.combat.target end, 7, 9)),
 
             WhileNode(function() return DefensiveCanFight(self.inst) end, "CanFight",
                 ChaseAndAttack(self.inst, TUNING.ABIGAIL_DEFENSIVE_MAX_CHASE_TIME)),
-            FaceEntity(self.inst, GetTraderFn, KeepTraderFn),
+			FaceEntity(self.inst, GetTraderFn, KeepTraderFn),
 
             WhileNode(function() return GetBabysitterPos(self.inst) end, "babysitter",
                 Wander(self.inst, GetBabysitterPos, MAX_BABYSIT_WANDER, WANDER_TIMING)
             ),
 
             Follow(self.inst, function() return self.inst.components.follower.leader end,
-                TUNING.ABIGAIL_DEFENSIVE_MIN_FOLLOW, TUNING.ABIGAIL_DEFENSIVE_MED_FOLLOW,
-                TUNING.ABIGAIL_DEFENSIVE_MAX_FOLLOW, true),
+                    TUNING.ABIGAIL_DEFENSIVE_MIN_FOLLOW, TUNING.ABIGAIL_DEFENSIVE_MED_FOLLOW, TUNING.ABIGAIL_DEFENSIVE_MAX_FOLLOW, true),
             Wander(self.inst, nil, nil, WANDER_TIMING),
         }, PRIORITY_NODE_RATE)
     )
 
     --
     local aggressive_mode = PriorityNode({
-        WhileNode(
-            function() return self.inst:HasTag("gestalt") and self.inst.components.combat.target and
-                (self.inst.components.combat:InCooldown() or self.inst:HasTag("gestalt_hide")) end, "gestalt avoid",
+        WhileNode(function() return self.inst:HasTag("gestalt") and self.inst.components.combat.target and ( self.inst.components.combat:InCooldown() or self.inst:HasTag("gestalt_hide") ) end, "gestalt avoid",
             RunAway(self.inst, function() return self.inst.components.combat.target end, 7, 9)),
 
         WhileNode(function() return AggressiveCanFight(self.inst) end, "CanFight",
@@ -171,8 +169,7 @@ function AbigailBrain:OnStart()
         ),
 
         Follow(self.inst, function() return self.inst.components.follower.leader end,
-            TUNING.ABIGAIL_AGGRESSIVE_MIN_FOLLOW, TUNING.ABIGAIL_AGGRESSIVE_MED_FOLLOW,
-            TUNING.ABIGAIL_AGGRESSIVE_MAX_FOLLOW, true),
+                TUNING.ABIGAIL_AGGRESSIVE_MIN_FOLLOW, TUNING.ABIGAIL_AGGRESSIVE_MED_FOLLOW, TUNING.ABIGAIL_AGGRESSIVE_MAX_FOLLOW, true),
         Wander(self.inst),
     }, PRIORITY_NODE_RATE)
 

@@ -47,9 +47,9 @@ local function BuildSkillsData(SkillTreeFns)
             tags = { "mywd_moon", "lock" },
             lock_open = function(prefabname, activatedskills, readonly)
                 -- MYWD:锁一下看看效果
-                -- if SkillTreeFns.CountTags(prefabname, "shadow_favor", activatedskills) == 0 then
-                --     return true
-                -- end
+                if SkillTreeFns.CountTags(prefabname, "shadow_favor", activatedskills) == 0 then
+                    return true
+                end
                 return nil -- Important to return nil and not false.
             end,
             connects = {

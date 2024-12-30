@@ -36,7 +36,28 @@ local IMPORT_GLOBAL = {
     TheNet = true,
     FRAMES = true,
     TimeEvent = true,
-    State = true
+    State = true,
+    generic_error = true,
+    getmetatable = true,
+    rawget = true,
+
+    ConditionNode = true,
+    PriorityNode = true,
+    ActionNode = true,
+    WhileNode = true,
+    FindFarmPlant = true,
+
+    EventHandler = true,
+    SpawnPrefab = true,
+    FindClosest = true,
+    DoAction = true,
+    BufferedAction = true,
+    SequenceNode = true,
+    Approach = true,
+    FindEntity = true,
+    IfNode = true,
+    debug = true,
+    resolvefilepath = true,
 }
 
 -- 不要直接设置 GLOBAL 会报错

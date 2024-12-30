@@ -7,7 +7,6 @@ local function put_all_anims(build, bank, anims, loop, padding)
         c_announce("放不出来")
     end
 
-    print(target)
     local x, y, z = target.Transform:GetWorldPosition()
     x = x + 2
     z = z + 2
@@ -76,4 +75,4 @@ local function enable()
         end
     end)
 end
-enable()
+-- enable()

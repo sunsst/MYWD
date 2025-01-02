@@ -1,0 +1,23 @@
+{
+    "Lua.diagnostics.globals": [
+        "RegisterSkilltreeBGForCharacter",
+        "modimport",
+        "GLOBAL",
+        "Asset",
+        "TheSim",
+        "AddCharacterRecipe",
+        "AddPlayerPostInit",
+        "BuildSkillsData",
+        "AddPrefabPostInit",
+        "AddStategraphPostInit",
+        "AddStategraphState",
+        "AddStategraphEvent",
+        "env",
+        "AddAction",
+        "AddClassPostConstruct",
+        "AddComponentPostInit",
+        "AddBrainPostInit",
+        "AddStategraphActionHandler"
+    ],
+    "Lua.runtime.version": "Lua 5.1",
+}

@@ -1,0 +1,10 @@
+**/debug*
+**/temp*
+
+/.vscode/**
+!/.vscode/settings.json
+
+/MYWD/anim
+/MYWD/exported
+/MYWD/images
+/MYWD_RES/**/*.zip

@@ -1,0 +1,41 @@
+TUNING.MYWD = {
+    -- 月亮药数值
+    GHOSTLYELIXIR_MYWD_MOON_DAMAGE = 50,
+    GHOSTLYELIXIR_MYWD_MOON_DEFENSE = 100,
+    GHOSTLYELIXIR_MYWD_MOON_DURATION = TUNING.TOTAL_DAY_TIME,
+
+    -- 暗影药数值
+    GHOSTLYELIXIR_MYWD_SHADOW_DAMAGE = 50,
+    GHOSTLYELIXIR_MYWD_SHADOW_DEFENSE = 100,
+    GHOSTLYELIXIR_MYWD_SHADOW_DURATION = TUNING.TOTAL_DAY_TIME,
+
+
+
+    -- 温蒂召唤阿比盖尔的半径
+    WENDY_SUMMON_ABIGAIL_RADIUS = 20,
+    -- 温蒂范围攻击半径
+    WENDY_AURA_RADIUS = 4,
+    -- 温蒂范围攻击间隔/秒
+    WENDY_AURA_TICKPERIOD = 2,
+    -- 暗影形态下阿比加伤倍率
+    WENDY_SHADOW_DAMAGE_MOD = 2,
+    -- 温蒂使用暗影阿比技能的san值更新
+    WENDY_SHADOW_SKILL_SANITY_UPDATE = -15,
+    -- 温蒂使用月亮阿比技能的san值更新
+    WENDY_MOON_SKILL_SANITY_UPDATE = -15,
+    -- 温蒂在月亮阿比存在时的每秒恢复的精神
+    WENDY_MOONABIGAIL_EFFECT_SANITY_VALUE = 10,
+
+    -- 暗影形态下阿比加伤
+    ABIGAIL_SHADOW_DAMAGE_MOD_ADD = 6,
+    -- 月亮形态下阿比导弹伤害
+    ABIGAIL_MOON_MISSILE_DAMAGE = 11,
+    -- 月亮形态下阿比导弹速度
+    ABIGAIL_MOON_MISSILE_SPEED = 30,
+    -- 月亮形态下阿比以温蒂为圆心发现蝴蝶以及抓捕蝴蝶可以远离的距离
+    ABIGAIL_MOON_FIND_BUTTERFLY_RADIUS = 8,
+    -- 月亮形态下阿比触发抓蝴蝶以及给蝴蝶的距离
+    ABIGAIL_MOON_CATCH_BUTTERFLY_DIST = 1.5,
+    -- 暗影形态下阿比假死触发血量
+    ABIGAIL_SHADOW_FEIGNDEAD_HEALTH_CEILING = 0,
+}

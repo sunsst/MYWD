@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0" name="ghostly_elixirs_comp">
+        <file id="0" name="ghostly_elixirs_comp/ghostly_elixirs_comp-7.png" width="512" height="512" pivot_x="0.527237" pivot_y="0.0914397"/>
+        <file id="1" name="ghostly_elixirs_comp/ghostly_elixirs_comp-6.png" width="781" height="781" pivot_x="0.52235" pivot_y="0.0255428"/>
+    </folder>
+    <entity id="0" name="mywd_ghostly_elixirs">
+        <animation id="0" name="mywd_moon" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp-6" folder="0" file="1" abs_x="1" abs_y="2.287656" abs_pivot_x="0.52235" abs_pivot_y="0.025543" abs_angle="0" abs_scale_x="0.275737" abs_scale_y="0.250451" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp-6">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="1" y="2.287656" angle="0" scale_x="0.275737" scale_y="0.250451"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="mywd_shadow" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="ghostly_elixirs_comp-7_000" folder="0" file="0" abs_x="-4" abs_y="10" abs_pivot_x="0.527237" abs_pivot_y="0.09144" abs_angle="0" abs_scale_x="0.397654" abs_scale_y="0.397654" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghostly_elixirs_comp-7_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-4" y="10" angle="0" scale_x="0.397654" scale_y="0.397654"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

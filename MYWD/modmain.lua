@@ -61,14 +61,14 @@ local modscripts = {
 Assets = {}
 PrefabFiles = prefabs
 
-local atlas_len = #atlas
-for i, name in ipairs(atlas) do
-    Assets[i] = Asset("ATLAS", "images/" .. name .. ".xml")
-end
+-- local atlas_len = #atlas
+-- for i, name in ipairs(atlas) do
+--     Assets[i] = Asset("ATLAS", "images/" .. name .. ".xml")
+-- end
 
-for i, name in ipairs(anims) do
-    Assets[atlas_len + i] = Asset("ANIM", "anim/" .. name .. ".zip")
-end
+-- for i, name in ipairs(anims) do
+--     Assets[atlas_len + i] = Asset("ANIM", "anim/" .. name .. ".zip")
+-- end
 
 for _, name in ipairs(languages) do
     modimport("languages/" .. name .. ".lua")
@@ -79,6 +79,19 @@ for _, name in ipairs(modscripts) do
     modimport("modscripts/" .. name .. ".lua")
 end
 
+----------------------------------------------------------------------
+
+modimport("modscripts/testutil/anim_import.lua")
+
+for i, name in ipairs(ANIM_IMPORT or {}) do
+    table.insert(Assets, Asset("ANIM", name))
+end
+
+for i, name in ipairs(IMAGE_IMPORT or {}) do
+    table.insert(Assets, Asset("ATLAS", name))
+end
+
+print(GLOBAL.PrintTable(Assets))
 anims = nil
 atlas = nil
 prefabs = nil

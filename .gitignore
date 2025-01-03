@@ -8,3 +8,4 @@
 /MYWD/exported
 /MYWD/images
 /MYWD_RES/**/*.zip
+/MYWD/modscripts/testutil/anim_import.lua

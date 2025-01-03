@@ -25,6 +25,10 @@ else:
 
 
 def make_atlas():
+    if DST_MOD_TOOL is None:
+        print('未设置环境变量 DST_MOD_TOOL，放弃编译图集')
+        return
+
     # 生成.tex文件
     exe = join(DST_MOD_TOOL_BIN, 'png.exe')
 

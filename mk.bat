@@ -4,3 +4,4 @@ cd /d %~dp0
 python utils/copyfiles.py
 python utils/makeatlas.py
 python utils/makeanim.py
+python utils/makanimimport.py

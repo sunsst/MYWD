@@ -36,7 +36,8 @@ end
 
 function ClearAllAnimTester()
     for _, tester in ipairs(AllAnimTesters) do
-        tester:Remove()
+        tester.ent:Remove()
+        tester.text.inst:Remove()
     end
     AllAnimTesters = {}
 end

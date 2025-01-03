@@ -50,7 +50,10 @@ local function enable()
         if down and TheInput:IsKeyDown(KEY_SHIFT) then
             if key == KEY_INSERT then
                 local n = put_all_anims(MYWD_ANIMS, true)
-                c_announce(string.format("已生成动画 %d 个，世界上共 %d 个", n, #AllAnimTesters))
+                c_announce(string.format("已生成循环动画 %d 个，世界上共 %d 个", n, #AllAnimTesters))
+            elseif key == KEY_HOME then
+                    local n = put_all_anims(MYWD_ANIMS, false)
+                    c_announce(string.format("已生成不循环动画 %d 个，世界上共 %d 个", n, #AllAnimTesters))
             elseif key == KEY_DELETE then
                 ClearAllAnimTester()
                 c_announce("已清除所有动画")

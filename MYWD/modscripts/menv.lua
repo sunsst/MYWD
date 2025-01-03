@@ -10,6 +10,7 @@ local IMPORT_GLOBAL = {
     TheWorld = true,
     TheInput = true,
     Vector3 = true,
+    Point = true,
 
     c_announce = true,
     shallowcopy = true,
@@ -23,6 +24,7 @@ local IMPORT_GLOBAL = {
     KEY_INSERT = true,
     KEY_PAGEUP = true,
     KEY_END = true,
+    KEY_DELETE = true,
 
     DEFAULTFONT = true,
 
@@ -58,6 +60,8 @@ local IMPORT_GLOBAL = {
     IfNode = true,
     debug = true,
     resolvefilepath = true,
+    KEY_SHIFT = true,
+    c_select = true,
 }
 
 -- 不要直接设置 GLOBAL 会报错

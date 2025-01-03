@@ -40,10 +40,11 @@ local modscripts = {
     "tuning",
 
     -- 测试用的库，到时候记得去掉
+    "testutil/anims",
     "testutil/show_range",
     "testutil/add_text",
     "testutil/make_anim_tester",
-    "testutil/put_all_anims",
+    "testutil/put_anims",
 
     -- 基本修改
     "skills",

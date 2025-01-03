@@ -13,7 +13,7 @@ function MakeAnimTester(build, bank, anim, loop)
     inst.AnimState:SetBuild(build)
     inst.AnimState:PlayAnimation(anim, loop)
 
-    local t = AddText(inst, build .. ":" .. bank .. "." .. anim)
+    local t = AddText(inst, build .. ":" .. bank .. "." .. anim, -15, nil, 22)
 
     table.insert(AllAnimTesters, {
         ent = inst,
@@ -32,4 +32,11 @@ function MakeAnimTesterAtEntity(build, bank, anim, target, loop)
     local inst = MakeAnimTester(build, bank, anim, loop)
     inst.Transform:SetPosition(target.Transform:GetWorldPosition())
     return inst
+end
+
+function ClearAllAnimTester()
+    for _, tester in ipairs(AllAnimTesters) do
+        tester:Remove()
+    end
+    AllAnimTesters = {}
 end
